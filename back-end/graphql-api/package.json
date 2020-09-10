@@ -1,0 +1,31 @@
+{
+  "name": "graphql-api",
+  "version": "1.0.0",
+  "description": "api para conectar el front-end con la base de datos.",
+  "main": "index.js",
+  "dependencies": {
+    "apollo-server-express": "^1.4.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "graphql": "^15.3.0",
+    "graphql-tools": "^6.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlejandraLopezB/memoria.git"
+  },
+  "keywords": [
+    "memoria",
+    "trabajo_de_titulo"
+  ],
+  "author": "Alejandra Lopez Balboa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlejandraLopezB/memoria/issues"
+  },
+  "homepage": "https://github.com/AlejandraLopezB/memoria#readme"
+}
