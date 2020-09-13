@@ -97,10 +97,16 @@ const typeDefs = gql`
 		personas: [Persona]
 		personasPorCargo(cargo: String!): [Persona]
 		personasPorCargoYPeriodo(cargo: String!, periodo_legislativo: ID!): [Persona]
+		personasPorCargoPeriodoYPartido(cargo: String!, periodo_legislativo: ID!, idpartidopolitico: ID!): [Persona]
 		personasPorTipo(tipo: String!): [Persona]
 		personasPorTipoYPeriodo(tipo: String!, periodo_legislativo: ID!): [Persona]
+		personasPorTipoPeriodoYPartido(tipo: String!, periodo_legislativo: ID!, idpartidopolitico: ID!): [Persona]
 		periodosLegislativos: [PeriodoLegislativo]
 		periodoLegislativo(periodo_legislativo: ID!): PeriodoLegislativo
+		comision(idcomision: ID!): Comision
+		sesionesPorAno(ano: Int!): [Sesion]
+		sesionesPorComisionYAno(idcomision: ID!, ano: Int!): [Sesion]
+		sesionesPorComisionYPeriodo(idcomision: ID!, periodo_legislativo: ID!): [Sesion]
 	}
 	
 	type Persona {
@@ -134,6 +140,34 @@ const typeDefs = gql`
 		fecha_inicio: Date
 		fecha_fin: Date
 		activo: Boolean
+	}
+
+	type Comision {
+		idcomision: ID!
+		nombre: String
+		tipo: String
+		sesiones: [Sesion]
+	}
+
+	type Sesion {
+		idsesion: ID!
+		fecha: Date
+		documento: String
+		idcomision: ID!
+		comision: Comision
+		numero_sesion: Int!
+		periodo_legislativo: ID!
+		periodoLegislativo: PeriodoLegislativo
+		sesionLog: [SesionLog]
+	}
+
+	type SesionLog {
+		idsesionlog: ID!
+		idsesion: ID!
+		idpersona: ID
+		personas: [Persona]
+		asistente: Boolean
+		expositor: Boolean
 	}
 `;
 
