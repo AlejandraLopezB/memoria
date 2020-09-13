@@ -89,20 +89,52 @@
 const { gql } = require('apollo-server');
 
 const typeDefs = gql`
-  type Query {
-	books: [Book]
-	authors: [Author]
-  }  
-  type Book {
-    title: String
-    author: Author
-  }
-  type Author {
-    id: Int!
-    firstName: String
-    lastName: String
-    books: [Book]
-  }
+
+	scalar Date
+
+	type Query {
+		persona(idpersona: ID!): Persona
+		personas: [Persona]
+		personasPorCargo(cargo: String!): [Persona]
+		personasPorCargoYPeriodo(cargo: String!, periodo_legislativo: ID!): [Persona]
+		personasPorTipo(tipo: String!): [Persona]
+		personasPorTipoYPeriodo(tipo: String!, periodo_legislativo: ID!): [Persona]
+		periodosLegislativos: [PeriodoLegislativo]
+		periodoLegislativo(periodo_legislativo: ID!): PeriodoLegislativo
+	}
+	
+	type Persona {
+		idpersona: ID! 
+		nombre: String
+		genero: String
+		edad: Int
+		cargo: String
+		organizacion: String
+		tipo: String
+		periodo_legislativo: ID
+		periodoLegislativo: PeriodoLegislativo
+		idpartidopolitico: Int
+		partidoPolitico: PartidoPolitico
+		independiente: Boolean
+		oficialismo: Boolean
+		oposicion: Boolean
+		fuera_de_pacto: Boolean
+	}
+
+	type PeriodoLegislativo {
+		periodo_legislativo: ID!
+		fecha_inicio: Date
+		fecha_fin: Date
+		numero_romano: String
+	}
+
+	type PartidoPolitico {
+		idpartidopolitico: ID!
+		nombre: String
+		fecha_inicio: Date
+		fecha_fin: Date
+		activo: Boolean
+	}
 `;
 
 exports.typeDefs = typeDefs;
