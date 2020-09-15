@@ -8,17 +8,15 @@ const typeDefs = gql`
 		persona(idpersona: ID!): Persona
 		personas: [Persona]
 		personasPorCargo(cargo: String!): [Persona]
-		personasPorCargoYPeriodo(cargo: String!, periodo_legislativo: ID!): [Persona]
-		personasPorCargoPeriodoYPartido(cargo: String!, periodo_legislativo: ID!, idpartidopolitico: ID!): [Persona]
 		personasPorTipo(tipo: String!): [Persona]
-		personasPorTipoYPeriodo(tipo: String!, periodo_legislativo: ID!): [Persona]
-		personasPorTipoPeriodoYPartido(tipo: String!, periodo_legislativo: ID!, idpartidopolitico: ID!): [Persona]
 		periodosLegislativos: [PeriodoLegislativo]
 		periodoLegislativo(periodo_legislativo: ID!): PeriodoLegislativo
 		comision(idcomision: ID!): Comision
 		sesionesPorAno(ano: Int!): [Sesion]
 		sesionesPorComisionYAno(idcomision: ID!, ano: Int!): [Sesion]
 		sesionesPorComisionYPeriodo(idcomision: ID!, periodo_legislativo: ID!): [Sesion]
+		partidoPorPeriodo: [PartidoPorPeriodo]
+		personaPorPartidoYPeriodo: [PersonaPorPartidoYPeriodo]
 	}
 	
 	type Persona {
@@ -29,14 +27,6 @@ const typeDefs = gql`
 		cargo: String
 		organizacion: String
 		tipo: String
-		periodo_legislativo: ID
-		periodoLegislativo: PeriodoLegislativo
-		idpartidopolitico: Int
-		partidoPolitico: PartidoPolitico
-		independiente: Boolean
-		oficialismo: Boolean
-		oposicion: Boolean
-		fuera_de_pacto: Boolean
 	}
 
 	type PeriodoLegislativo {
@@ -80,6 +70,24 @@ const typeDefs = gql`
 		personas: [Persona]
 		asistente: Boolean
 		expositor: Boolean
+	}
+
+	type PartidoPorPeriodo {
+		idpartidoporperiodo: ID!
+		idpartidopolitico: ID!
+		partidoPolitico: PartidoPolitico
+		periodo_legislativo: ID!
+		periodoLegislativo: PeriodoLegislativo
+		alineamiento_politico: String
+		grupo_politico: String
+	}
+
+	type PersonaPorPartidoYPeriodo {
+		idpersonaporpartidoyperiodo: ID!
+		idpersona: ID!
+		persona: Persona
+		idpartidoporperiodo: ID!
+		partidoPorPeriodo: PartidoPorPeriodo
 	}
 `;
 
