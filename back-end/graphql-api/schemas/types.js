@@ -23,7 +23,7 @@ const typeDefs = gql`
 		idpersona: ID! 
 		nombre: String
 		genero: String
-		edad: Int
+		fecha_nacimiento: Date
 		cargo: String
 		organizacion: String
 		tipo: String
@@ -88,6 +88,7 @@ const typeDefs = gql`
 		persona: Persona
 		idpartidoporperiodo: ID!
 		partidoPorPeriodo: PartidoPorPeriodo
+		cargo: String
 	}
 `;
 
