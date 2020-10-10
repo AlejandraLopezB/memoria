@@ -1,0 +1,8 @@
+.menuContainer {
+    background-color: #333333;
+    margin: 0.7em;
+    padding: 0.7em;
+    border-radius: 7px;
+    display: flex;
+    justify-content: space-around;
+}
