@@ -1,25 +1,49 @@
 import React from "react"
-import { Helmet } from "react-helmet"
 import Layout from "../components/layout"
 import MenuGroupContainer from "../components/menu-group-container"
 import MenuContainer from "../components/menu-container"
-import Footer from "../components/footer"
+import { Link } from "gatsby"
 
 export default function Home() {
     return (
 		<Layout>
-			<Helmet>
-				<meta charSet="utf-8" />
-				<title>Viz Congreso</title>
-			</Helmet>
-
 			<h1 style={{ textAlign: `center` }}>Congreso de Chile</h1>
 			<h3 style={{ textAlign: `center` }}>Visualizaciones</h3>
 
-			<div style={{ display: `flex`, justifyContent: `space-around`}}>
+			<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 			<MenuGroupContainer>
 				<h2 style={{ textAlign: `center` }}>Legisladores</h2>
-				<div style={{ display: `flex`, justifyContent: `center`}}>
+				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
+					<Link to="/legisladores01">
+						<MenuContainer>
+							<h3>Parliament Chart</h3>
+						</MenuContainer>
+					</Link>
+						<MenuContainer>
+							<h3>Side Bar</h3>
+						</MenuContainer>
+						<MenuContainer>
+							<h3>Survey</h3>
+						</MenuContainer>
+				</div>
+			</MenuGroupContainer>
+			<MenuGroupContainer>
+				<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
+				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
+				<MenuContainer>
+						<h3>Parliament Chart</h3>
+					</MenuContainer>
+					<MenuContainer>
+						<h3>Side Bar</h3>
+					</MenuContainer>
+					<MenuContainer>
+						<h3>Survey</h3>
+					</MenuContainer>
+				</div>
+			</MenuGroupContainer>
+			<MenuGroupContainer>
+				<h2 style={{ textAlign: `center` }}>Otra Cosa Que Se Puede Poner</h2>
+				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 					<MenuContainer>
 						<h3>Primer Contenedor</h3>
 					</MenuContainer>
@@ -32,8 +56,8 @@ export default function Home() {
 				</div>
 			</MenuGroupContainer>
 			<MenuGroupContainer>
-				<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
-				<div style={{ display: `flex`, justifyContent: `center`}}>
+				<h2 style={{ textAlign: `center` }}>Otra Cosa Mas</h2>
+				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 					<MenuContainer>
 						<h3>Primer Contenedor</h3>
 					</MenuContainer>
@@ -46,7 +70,6 @@ export default function Home() {
 				</div>
 			</MenuGroupContainer>
 			</div>
-			<Footer></Footer>
 		</Layout>
 	)
 }
