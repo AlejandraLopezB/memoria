@@ -23,6 +23,19 @@ const resolvers = {
                 return err;
             }
         },
+        legisladores: async (_, args) => {
+            const query = `SELECT * FROM persona_por_partido_y_periodo 
+                            JOIN partido_por_periodo ON persona_por_partido_y_periodo.idpartidoporperiodo = partido_por_periodo.idpartidoporperiodo 
+                            JOIN persona ON persona_por_partido_y_periodo.idpersona = persona.idpersona 
+                            WHERE partido_por_periodo.periodo_legislativo = $1 AND persona.tipo = 'Legislador'`;
+            const values = [args.periodo];
+            try {
+                const res = await db.manyOrNone(query, values);
+                return res;
+            } catch (err) {
+                return err;
+            }
+        },
         personasPorCargo: async (_, args) => {
             const query = `SELECT * FROM Persona WHERE cargo = $1`;
             const values = [args.cargo];

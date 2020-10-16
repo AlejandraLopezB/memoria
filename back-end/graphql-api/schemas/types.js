@@ -7,6 +7,7 @@ const typeDefs = gql`
 	type Query {
 		persona(idpersona: ID!): Persona
 		personas: [Persona]
+		legisladores(periodo: ID!): [Persona]
 		personasPorCargo(cargo: String!): [Persona]
 		personasPorTipo(tipo: String!): [Persona]
 		periodosLegislativos: [PeriodoLegislativo]
