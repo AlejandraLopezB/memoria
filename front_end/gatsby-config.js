@@ -14,8 +14,12 @@ module.exports = {
 				link:'/'
 			},
 			{
-				name:'legisladores',
-				link:'legisladores01'
+				name:'legisladores-parliament-chart',
+				link:'legisladores-parliament-chart'
+			},
+			{
+				name:'legisladores-sidebar-chart',
+				link:'legisladores-sidebar-chart'
 			}
 		]
 	},

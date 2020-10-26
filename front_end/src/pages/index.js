@@ -3,6 +3,13 @@ import Layout from "../components/layout"
 import MenuGroupContainer from "../components/menu-group-container"
 import MenuContainer from "../components/menu-container"
 import { Link } from "gatsby"
+import Highcharts from "highcharts"
+import highchartsItem from "highcharts/modules/item-series"
+import HighchartsExporting from 'highcharts/modules/exporting'
+
+// init the module
+highchartsItem(Highcharts);
+HighchartsExporting(Highcharts);
 
 export default function Home() {
     return (
@@ -14,14 +21,16 @@ export default function Home() {
 			<MenuGroupContainer>
 				<h2 style={{ textAlign: `center` }}>Legisladores</h2>
 				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-					<Link to="/legisladores01">
+					<Link to="/legisladores-parliament-chart">
 						<MenuContainer>
 							<h3>Parliament Chart</h3>
 						</MenuContainer>
 					</Link>
+					<Link to="/legisladores-sidebar-chart">
 						<MenuContainer>
 							<h3>Side Bar</h3>
 						</MenuContainer>
+					</Link>
 						<MenuContainer>
 							<h3>Survey</h3>
 						</MenuContainer>

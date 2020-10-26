@@ -16,7 +16,8 @@
   "dependencies": {
     "@apollo/client": "^3.2.4",
     "@material-ui/core": "^4.11.0",
-    "gatsby": "^2.24.67",
+    "eslint": "^7.12.0",
+    "gatsby": "^2.24.85",
     "gatsby-plugin-react-helmet": "^3.3.14",
     "highcharts": "^8.2.0",
     "highcharts-react-official": "^3.0.0",

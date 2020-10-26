@@ -1,0 +1,209 @@
+import React, { useState } from "react"
+import Layout from "../components/layout"
+import HomeNav from "../components/homeNav"
+import { gql, useQuery } from '@apollo/client';
+import Highcharts from "highcharts"
+import HighchartsReact from "highcharts-react-official"
+import { makeStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import { ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme } from '@material-ui/core/styles';
+
+const GET_LEGISLADORES_PERIODO_9 = gql`
+	query getLegisladores {
+        legisladores(periodo:9) {
+			genero
+			cargo
+        }
+	}
+`;
+
+const GET_LEGISLADORES_PERIODO_8 = gql`
+	query getLegisladores {
+        legisladores(periodo:8) {
+			genero
+			cargo
+        }
+	}
+`;
+
+function Legisladores(props) {
+
+	var { loading, error, data } = useQuery(props.periodo == 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
+
+	if (loading) return 'Loading...';
+	if (error) return `Error! ${error.message}`;
+
+	if (props.legisladores == "todos") {
+		var hombres = data.legisladores.filter(element => element.genero === "M").length;
+		var mujeres = data.legisladores.filter(element => element.genero === "F").length;
+		var total = hombres + mujeres;
+	} else if (props.legisladores == "diputados") {
+		var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
+		var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
+		var total = hombres + mujeres;
+	} else if (props.legisladores === "senadores") {
+		var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
+		var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
+		var total = hombres + mujeres;
+	}
+
+	const options = {
+		chart: {
+			type: 'item',
+			backgroundColor: '#191919'
+		},
+	
+		title: {
+			text: 'Legisladores',
+			style: {
+				color: '#E6E6E6'
+			}
+		},
+	
+		subtitle: {
+			text: 'Total Legisladores: ' + total
+		},
+	
+		legend: {
+			labelFormat: '{name} <span style="opacity: 0.4">{y}</span>',
+			itemStyle: {
+				color: '#E6E6E6'
+			}
+		},
+	
+		series: [{
+			name: 'Representatives',
+			keys: ['name', 'y', 'color', 'label'],
+			data: [
+				['Hombres', hombres, '#96F5F5', 'Hombres'],
+				['Mujeres', mujeres, '#ecad08', 'Mujeres']
+			],
+			dataLabels: {
+				enabled: true,
+				format: '{point.label}',
+				color: '#E6E6E6',
+				style: {
+					textOutline: 'none'
+				}
+			},
+	
+			// Circular options
+			center: ['50%', '88%'],
+			size: '170%',
+			startAngle: -100,
+			endAngle: 100
+		}],
+		exporting: {
+			buttons: {
+				contextButton: {
+					menuItems: ['viewFullscreen', 'printChart', 'separator', 'downloadPNG', 'downloadJPEG', 'downloadPDF', 'downloadSVG']
+				},
+			}
+		},
+		navigation: {
+			menuStyle: {
+				background: '#5a5a5a',
+				border: 'none',
+				shadow: 'none'
+			},
+			menuItemStyle: {
+				fontWeight: 'normal',
+				color: '#E6E6E6'
+			},
+			menuItemHoverStyle: {
+				background: '#6e6e6e',
+				text: 'hola'
+			}
+		}
+	}
+
+	return(
+		<HighchartsReact
+			highcharts={Highcharts}
+			constructorType = { 'chart' }
+			options={options}
+			containerProps = {{ style: {height: '400px'} }}
+		/>
+	)
+}
+
+const useStyles = makeStyles((theme) => ({
+	formControl: {
+		margin: theme.spacing(1),
+		minWidth: 120,
+	},
+	selectEmpty: {
+		marginTop: theme.spacing(2),
+	},
+}));
+
+const darkTheme = createMuiTheme({
+	palette: {
+		type: 'dark',
+	}
+});
+
+export default function Legisladores01() {
+
+	const classes = useStyles();
+	const [state, setState] = useState({
+		legisladores: "todos",
+		periodo: 9,
+	});
+  
+	const handleChange = (event) => {
+		const name = event.target.name;
+		setState({
+			...state,
+			[name]: event.target.value,
+		});
+		console.log("states: " + state.legisladores + " " + state.periodo)
+	};
+
+    return (
+		<Layout>
+			<HomeNav></HomeNav>
+			<ThemeProvider theme={darkTheme}>
+				<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel>Legisladores</InputLabel>
+					<Select
+					native
+					value={state.legisladores}
+					onChange={handleChange}
+					label="Legisladores"
+					inputProps={{
+						name: 'legisladores'
+					}}
+					>
+					<option value={"todos"}>Todos</option>
+					<option value={"diputados"}>Diputados</option>
+					<option value={"senadores"}>Senadores</option>
+					</Select>
+				</FormControl>
+			</ThemeProvider>
+			<ThemeProvider theme={darkTheme}>
+				<FormControl variant="outlined" className={classes.formControl}>
+					<InputLabel id="periodo-select-outlined-label">Periodo</InputLabel>
+					<Select
+					native
+					labelId="periodo-select-outlined-label"
+					id="periodo-select-outlined"
+					value={state.periodo}
+					onChange={handleChange}
+					label="Periodo"
+					inputProps={{
+						name: 'periodo'
+					}}
+					>
+					<option value={8}>8</option>
+					<option value={9}>9</option>
+					</Select>
+				</FormControl>
+			</ThemeProvider>
+            <Legisladores periodo={state.periodo} legisladores={state.legisladores} />
+        </Layout>
+    )
+}
