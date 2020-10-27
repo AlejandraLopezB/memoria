@@ -6,10 +6,12 @@ import { Link } from "gatsby"
 import Highcharts from "highcharts"
 import highchartsItem from "highcharts/modules/item-series"
 import HighchartsExporting from 'highcharts/modules/exporting'
+import HighchartsTheme from 'highcharts/themes/high-contrast-dark.src';
 
 // init the module
 highchartsItem(Highcharts);
 HighchartsExporting(Highcharts);
+HighchartsTheme(Highcharts);
 
 export default function Home() {
     return (

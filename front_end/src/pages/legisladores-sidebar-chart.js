@@ -11,49 +11,134 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const GET_LEGISLADORES_PERIODO_9 = gql`
-	query getLegisladores {
-        legisladores(periodo:9) {
-			genero
-			cargo
-        }
-	}
-`;
-
-const GET_LEGISLADORES_PERIODO_8 = gql`
-	query getLegisladores {
-        legisladores(periodo:8) {
-			genero
-			cargo
-        }
+const GET_PARTIDOS = gql`
+	query getPartidos {
+		personaPorPartidoYPeriodo {
+			persona {
+				cargo
+			}
+			partidoPorPeriodo {
+				periodoLegislativo {
+					periodo_legislativo
+				}
+				partidoPolitico {
+					nombre
+				}
+			}
+		}
 	}
 `;
 
 function Legisladores(props) {
 
-	// var { loading, error, data } = useQuery(props.periodo == 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
+	var { loading, error, data } = useQuery(GET_PARTIDOS);
 
-	// if (loading) return 'Loading...';
-	// if (error) return `Error! ${error.message}`;
+	if (loading) return 'Loading...';
+	if (error) return `Error! ${error.message}`;
 
-	// if (props.legisladores == "todos") {
-	// 	var hombres = data.legisladores.filter(element => element.genero === "M").length;
-	// 	var mujeres = data.legisladores.filter(element => element.genero === "F").length;
-	// 	var total = hombres + mujeres;
-	// } else if (props.legisladores == "diputados") {
-	// 	var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
-	// 	var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
-	// 	var total = hombres + mujeres;
-	// } else if (props.legisladores === "senadores") {
-	// 	var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
-	// 	var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
-	// 	var total = hombres + mujeres;
-	// }
+	data = data.personaPorPartidoYPeriodo
+	var periodo8 = data.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo == 8)
+	var periodo9 = data.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo == 9)
+
+	var dataPartidos = [];
+
+	if (props.legisladores === "todos") {
+		periodo8.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [1,0]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[0] += 1
+			}
+		})
+		periodo9.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [0,1]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[1] += 1
+			}
+		})
+	} else if (props.legisladores === "diputados") {
+		periodo8 = periodo8.filter(element => (element.persona.cargo === "Diputado" || element.persona.cargo === "Diputada"))
+		periodo9 = periodo9.filter(element => (element.persona.cargo === "Diputado" || element.persona.cargo === "Diputada"))
+
+		periodo8.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [1,0]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[0] += 1
+			}
+		})
+		periodo9.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [0,1]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[1] += 1
+			}
+		})
+	} else if (props.legisladores === "senadores") {
+		periodo8 = periodo8.filter(element => (element.persona.cargo === "Senador" || element.persona.cargo === "Senadora"))
+		periodo9 = periodo9.filter(element => (element.persona.cargo === "Senador" || element.persona.cargo === "Senadora"))
+		
+		periodo8.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [1,0]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[0] += 1
+			}
+		})
+		periodo9.forEach(element => {
+			if(!dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				dataPartidos.push({
+					name: element.partidoPorPeriodo.partidoPolitico.nombre,
+					data: [0,1]
+				})
+			} else if(dataPartidos.find(x => x.name === element.partidoPorPeriodo.partidoPolitico.nombre)) {
+				var i = dataPartidos.findIndex(function(item, i){
+					return item.name === element.partidoPorPeriodo.partidoPolitico.nombre
+				})
+				dataPartidos[i].data[1] += 1
+			}
+		})
+	}
+	console.log(dataPartidos[1])
 	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
 		chart: {
 			type: 'bar',
-			backgroundColor: '#191919'
+			backgroundColor: '#191919',
+			style: {
+				fontFamily: 'Roboto'
+			}
 		},
 	
 		title: {
@@ -64,13 +149,13 @@ function Legisladores(props) {
 		},
 	
 		subtitle: {
-			text: 'Subtitle'
+			text: 'Cantidad de Legisladores por Partido Político según el Periodo Legislativo'
 		},
 	
 		xAxis: {
 			categories: ['2014 - 2018', '2018 - 2022'],
 			title: {
-				text: null
+				text: "Periodo Legislativo"
 			},
 			labels: {
 				style: {
@@ -79,6 +164,7 @@ function Legisladores(props) {
 			}
 		},
 		yAxis: {
+			allowDecimals: false,
 			min: 0,
 			title: {
 				text: 'Legisladores (cantidad)',
@@ -100,21 +186,24 @@ function Legisladores(props) {
 		plotOptions: {
 			bar: {
 				dataLabels: {
-					enabled: true,
+					enabled: false,
 					color: '#E6E6E6',
 					style: {
 						textOutline: 'none'
 					}
-				}
+				},
+			},
+			series: {
+				borderColor: 'none'
 			}
 		},
 		legend: {
 			layout: 'vertical',
 			align: 'right',
 			verticalAlign: 'top',
-			x: -40,
-			y: 80,
-			floating: true,
+			// x: 0,
+			y: 52,
+			floating: false,
 			backgroundColor: '#5a5a5a',
 			itemStyle: {
 				color: '#E6E6E6'
@@ -122,28 +211,9 @@ function Legisladores(props) {
 			borderRadius: 5
 		},
 		credits: {
-			enabled: true
+			enabled: false
 		},
-		plotOptions: {
-			series: {
-				borderColor: 'none'
-			}
-		},
-		series: [
-			{
-				name: 'Nombre Partido',
-				data: [107, 31]
-			}, {
-				name: 'Year 1900',
-				data: [133, 156]
-			}, {
-				name: 'Year 2000',
-				data: [814, 841]
-			}, {
-				name: 'Year 2016',
-				data: [1216, 1001]
-			}
-		],
+		series: dataPartidos,
 		exporting: {
 			buttons: {
 				contextButton: {
@@ -154,16 +224,14 @@ function Legisladores(props) {
 		navigation: {
 			menuStyle: {
 				background: '#5a5a5a',
-				border: 'none',
-				shadow: 'none'
+				border: 'none'
 			},
 			menuItemStyle: {
 				fontWeight: 'normal',
 				color: '#E6E6E6'
 			},
 			menuItemHoverStyle: {
-				background: '#6e6e6e',
-				text: 'hola'
+				background: '#6e6e6e'
 			}
 		}
 	}
@@ -172,7 +240,7 @@ function Legisladores(props) {
 		<HighchartsReact
 			highcharts={Highcharts}
 			options={options}
-			containerProps = {{ style: {height: '400px'} }}
+			containerProps = {{ style: {height: '525px'} }}
 		/>
 	)
 }

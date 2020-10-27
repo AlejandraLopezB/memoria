@@ -36,24 +36,31 @@ function Legisladores(props) {
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
 
+	var hombres = 0;
+	var mujeres = 0;
+	var total = 0;
+
 	if (props.legisladores == "todos") {
-		var hombres = data.legisladores.filter(element => element.genero === "M").length;
-		var mujeres = data.legisladores.filter(element => element.genero === "F").length;
-		var total = hombres + mujeres;
+		hombres = data.legisladores.filter(element => element.genero === "M").length;
+		mujeres = data.legisladores.filter(element => element.genero === "F").length;
+		total = hombres + mujeres;
 	} else if (props.legisladores == "diputados") {
-		var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
-		var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
-		var total = hombres + mujeres;
+		hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
+		mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
+		total = hombres + mujeres;
 	} else if (props.legisladores === "senadores") {
-		var hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
-		var mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
-		var total = hombres + mujeres;
+		hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
+		mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
+		total = hombres + mujeres;
 	}
 
 	const options = {
 		chart: {
 			type: 'item',
-			backgroundColor: '#191919'
+			backgroundColor: '#191919',
+			style: {
+				fontFamily: 'Roboto'
+			}
 		},
 	
 		title: {
@@ -66,7 +73,9 @@ function Legisladores(props) {
 		subtitle: {
 			text: 'Total Legisladores: ' + total
 		},
-	
+		credits: {
+			enabled: false
+		},
 		legend: {
 			labelFormat: '{name} <span style="opacity: 0.4">{y}</span>',
 			itemStyle: {
@@ -106,16 +115,14 @@ function Legisladores(props) {
 		navigation: {
 			menuStyle: {
 				background: '#5a5a5a',
-				border: 'none',
-				shadow: 'none'
+				border: 'none'
 			},
 			menuItemStyle: {
 				fontWeight: 'normal',
 				color: '#E6E6E6'
 			},
 			menuItemHoverStyle: {
-				background: '#6e6e6e',
-				text: 'hola'
+				background: '#6e6e6e'
 			}
 		}
 	}
@@ -125,7 +132,7 @@ function Legisladores(props) {
 			highcharts={Highcharts}
 			constructorType = { 'chart' }
 			options={options}
-			containerProps = {{ style: {height: '400px'} }}
+			containerProps = {{ style: {height: '525px'} }}
 		/>
 	)
 }
