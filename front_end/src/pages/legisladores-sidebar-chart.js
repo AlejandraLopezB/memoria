@@ -37,9 +37,8 @@ function Legisladores(props) {
 	if (error) return `Error! ${error.message}`;
 
 	data = data.personaPorPartidoYPeriodo
-	var periodo8 = data.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo == 8)
-	var periodo9 = data.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo == 9)
-
+	var periodo8 = data.filter(element => parseInt(element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo) === 8)
+	var periodo9 = data.filter(element => parseInt(element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo) === 9)
 	var dataPartidos = [];
 
 	if (props.legisladores === "todos") {
@@ -130,7 +129,7 @@ function Legisladores(props) {
 			}
 		})
 	}
-	console.log(dataPartidos[1])
+
 	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
 		chart: {
@@ -274,7 +273,6 @@ export default function Legisladores01() {
 			...state,
 			[name]: event.target.value,
 		});
-		console.log("state: " + state.legisladores)
 	};
 
     return (

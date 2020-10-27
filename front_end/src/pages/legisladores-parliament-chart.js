@@ -31,7 +31,7 @@ const GET_LEGISLADORES_PERIODO_8 = gql`
 
 function Legisladores(props) {
 
-	var { loading, error, data } = useQuery(props.periodo == 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
+	var { loading, error, data } = useQuery(parseInt(props.periodo) === 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
 
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
@@ -40,11 +40,11 @@ function Legisladores(props) {
 	var mujeres = 0;
 	var total = 0;
 
-	if (props.legisladores == "todos") {
+	if (props.legisladores === "todos") {
 		hombres = data.legisladores.filter(element => element.genero === "M").length;
 		mujeres = data.legisladores.filter(element => element.genero === "F").length;
 		total = hombres + mujeres;
-	} else if (props.legisladores == "diputados") {
+	} else if (props.legisladores === "diputados") {
 		hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
 		mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
 		total = hombres + mujeres;
@@ -167,7 +167,6 @@ export default function Legisladores01() {
 			...state,
 			[name]: event.target.value,
 		});
-		console.log("states: " + state.legisladores + " " + state.periodo)
 	};
 
     return (
