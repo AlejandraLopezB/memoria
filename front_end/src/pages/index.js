@@ -6,7 +6,9 @@ import { Link } from "gatsby"
 import Highcharts from "highcharts"
 import highchartsItem from "highcharts/modules/item-series"
 import HighchartsExporting from 'highcharts/modules/exporting'
-import HighchartsTheme from 'highcharts/themes/high-contrast-dark.src';
+import HighchartsTheme from 'highcharts/themes/high-contrast-dark.src'
+import parliamentLogo from "../utils/parliament-logo.png"
+import sidebarLogo from "../utils/sidebar-logo.png"
 
 // init the module
 highchartsItem(Highcharts);
@@ -25,58 +27,34 @@ export default function Home() {
 				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 					<Link to="/legisladores-parliament-chart">
 						<MenuContainer>
-							<h3>Parliament Chart</h3>
+							<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
+							<p>Legisladores por género</p>
 						</MenuContainer>
 					</Link>
 					<Link to="/legisladores-sidebar-chart">
 						<MenuContainer>
-							<h3>Side Bar</h3>
+							<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
+							<p>Legisladores por partido político</p>
 						</MenuContainer>
 					</Link>
+					<Link>
 						<MenuContainer>
-							<h3>Survey</h3>
+							<p>Survey</p>
 						</MenuContainer>
+					</Link>
 				</div>
 			</MenuGroupContainer>
 			<MenuGroupContainer>
 				<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
 				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 				<MenuContainer>
-						<h3>Parliament Chart</h3>
+						<p>Parliament Chart</p>
 					</MenuContainer>
 					<MenuContainer>
-						<h3>Side Bar</h3>
+						<p>Side Bar</p>
 					</MenuContainer>
 					<MenuContainer>
-						<h3>Survey</h3>
-					</MenuContainer>
-				</div>
-			</MenuGroupContainer>
-			<MenuGroupContainer>
-				<h2 style={{ textAlign: `center` }}>Otra Cosa Que Se Puede Poner</h2>
-				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-					<MenuContainer>
-						<h3>Primer Contenedor</h3>
-					</MenuContainer>
-					<MenuContainer>
-						<h3>Segundo Contenedor</h3>
-					</MenuContainer>
-					<MenuContainer>
-						<h3>Tercer Contenedor</h3>
-					</MenuContainer>
-				</div>
-			</MenuGroupContainer>
-			<MenuGroupContainer>
-				<h2 style={{ textAlign: `center` }}>Otra Cosa Mas</h2>
-				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-					<MenuContainer>
-						<h3>Primer Contenedor</h3>
-					</MenuContainer>
-					<MenuContainer>
-						<h3>Segundo Contenedor</h3>
-					</MenuContainer>
-					<MenuContainer>
-						<h3>Tercer Contenedor</h3>
+						<p>Survey</p>
 					</MenuContainer>
 				</div>
 			</MenuGroupContainer>
