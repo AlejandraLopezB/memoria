@@ -37,9 +37,9 @@ export default function Home() {
 							<p>Legisladores por partido político</p>
 						</MenuContainer>
 					</Link>
-					<Link>
+					<Link to="/legisladores-pyramidbar-chart">
 						<MenuContainer>
-							<p>Survey</p>
+							<p>Pyramid Bar Chart</p>
 						</MenuContainer>
 					</Link>
 				</div>
