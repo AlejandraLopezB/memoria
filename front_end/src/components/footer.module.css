@@ -4,6 +4,7 @@
     color: #aaaaaa;
     font-size: small;
     margin: 0.5em;
+    margin-top: auto;
 }
 
 .footerItem {
@@ -13,5 +14,10 @@
 .footerOne,
 .footerThree {
     flex: initial;
-    width: 300px;
+    width: 100px;
+}
+
+.footerTwo {
+    display: flex;
+    justify-content: center;
 }

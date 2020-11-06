@@ -19,8 +19,8 @@ export default function Layout({ children }) {
                     <title>Congreso</title>
                 </Helmet>
                 {children}
-                <Footer></Footer>
             </div>
+            <Footer></Footer>
         </ApolloProvider>
     )
 }
