@@ -7,7 +7,7 @@ export default function Footer() {
             <div className={footerStyles.footer}>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerOne}></div>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerTwo}>
-                    <p>Datos obtenidos del Congreso Nacional de Chile desde el 03/01/2015 hasta el 19/12/2017</p>
+                    <p>Datos obtenidos del Congreso Nacional de Chile desde enero del 2015 hasta junio del 2018</p>
                 </div>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerThree}>
                     <p style={{ display: `flex`, justifyContent: `flex-end`}}>versión 0.1.0</p>
