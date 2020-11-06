@@ -52,7 +52,7 @@ export default function Home() {
 							<p>Parliament Chart</p>
 						</MenuContainer>
 					</Link>
-					<Link to="ciudadanos-parliament-chart">
+					<Link to="ciudadanos-sidebar-chart">
 						<MenuContainer>
 							<p>Side Bar</p>
 						</MenuContainer>
