@@ -1,9 +1,9 @@
 import React, { useState, Fragment } from "react"
 import Layout from "../components/layout"
 import HomeNav from "../components/homeNav"
-import { gql, useQuery } from '@apollo/client';
 import Highcharts from "highcharts"
 import HighchartsReact from "highcharts-react-official"
+import { gql, useQuery } from '@apollo/client';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
@@ -14,10 +14,13 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const GET_GENERO_COMISION_ANO = gql`
     query get_genero($idcomision: ID!, $ano: Int!) {
         sesionesPorComisionYAno(idcomision: $idcomision, ano: $ano) {
+            idcomision
             sesionLog {
                 personas {
                     genero
                 }
+                asistente
+                expositor
             }
         }
     }
@@ -30,6 +33,8 @@ const GET_GENERO_ANO = gql`
                 personas {
                     genero
                 }
+                asistente
+                expositor
             }
         }
     }
@@ -58,90 +63,180 @@ function Ciudadanos(props) {
 	});
 
 	if (loading) return 'Loading...';
-	if (error) return `Error! ${error.message}`;
+    if (error) return `Error! ${error.message}`;
 
-	var hombres = 0;
-	var mujeres = 0;
-    var total = 0;
+    // Age categories
+    var categories_all = [
+        'Asistentes', 'Expositores'
+    ];
+
+    var hombres = []
+    var mujeres = []
+    var numero_personas = 0
+    var data_hombres = [0,0]
+    var data_mujeres = [0,0]
+    var data_hombres_porcentajes = [0,0]
+    var data_mujeres_porcentajes = [0,0]
     var listaGenero = []
-    
+
     if (idcomision === 0) {
         data.sesionesPorAno.forEach(element => {
             element.sesionLog.forEach(element => {
-                element.personas.forEach(element => {
-                    listaGenero.push(element.genero)
+                listaGenero.push({
+                    asistente: element.asistente,
+                    expositor: element.expositor,
+                    genero: element.personas[0].genero
                 })
             })
         })
 
-        hombres = listaGenero.filter(element => element === "M").length;
-		mujeres = listaGenero.filter(element => element === "F").length;
-		total = hombres + mujeres;
+        hombres = listaGenero.filter(element => element.genero === "M");
+        mujeres = listaGenero.filter(element => element.genero === "F");
+        numero_personas = hombres.length + mujeres.length
+
+        data_hombres[0] = -hombres.filter(element => element.asistente === true).length
+        data_hombres[1] = -hombres.filter(element => element.expositor === true).length
+        data_hombres_porcentajes[0] = ((data_hombres[0]*100)/numero_personas).toFixed(1)
+        data_hombres_porcentajes[1] = ((data_hombres[1]*100)/numero_personas).toFixed(1)
+
+        data_mujeres[0] = mujeres.filter(element => element.asistente === true).length
+        data_mujeres[1] = mujeres.filter(element => element.expositor === true).length
+        data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
+        data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     } else {
         data.sesionesPorComisionYAno.forEach(element => {
-			element.sesionLog.forEach(element => {
-				element.personas.forEach(element => {
-					listaGenero.push(element.genero)
-				})
-			})
+            element.sesionLog.forEach(element => {
+                listaGenero.push({
+                    asistente: element.asistente,
+                    expositor: element.expositor,
+                    genero: element.personas[0].genero
+                })
+            })
         })
 
-        hombres = listaGenero.filter(element => element === "M").length;
-		mujeres = listaGenero.filter(element => element === "F").length;
-        total = hombres + mujeres;
+        hombres = listaGenero.filter(element => element.genero === "M");
+        mujeres = listaGenero.filter(element => element.genero === "F");
+        numero_personas = hombres.length + mujeres.length
+
+        data_hombres[0] = -hombres.filter(element => element.asistente === true).length
+        data_hombres[1] = -hombres.filter(element => element.expositor === true).length
+        data_hombres_porcentajes[0] = ((data_hombres[0]*100)/numero_personas).toFixed(1)
+        data_hombres_porcentajes[1] = ((data_hombres[1]*100)/numero_personas).toFixed(1)
+
+        data_mujeres[0] = mujeres.filter(element => element.asistente === true).length
+        data_mujeres[1] = mujeres.filter(element => element.expositor === true).length
+        data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
+        data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     }
 
+	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
 		chart: {
-			type: 'item',
+			type: 'bar',
 			backgroundColor: '#191919',
 			style: {
 				fontFamily: 'Roboto'
 			}
 		},
-	
 		title: {
 			text: 'Participación Ciudadana',
 			style: {
 				color: '#E6E6E6'
 			}
 		},
-	
 		subtitle: {
-			text: 'Total Personas: ' + total
-		},
+			text: 'Personas (total: ' + numero_personas + ') agrupadas por asistentes o expositores'
+        },
+        accessibility: {
+            point: {
+                valueDescriptionFormat: '{index}. Edad {xDescription}, {value}%.'
+            }
+        },
+        xAxis: [{
+            categories: categories_all,
+            reversed: false,
+            labels: {
+                step: 1,
+                style: {
+					color: '#E6E6E6'
+				}
+            },
+            accessibility: {
+                description: 'Edad (masculino)'
+            }
+        }, { // mirror axis on right side
+            opposite: true,
+            reversed: false,
+            categories: categories_all,
+            linkedTo: 0,
+            labels: {
+                step: 1,
+                style: {
+					color: '#E6E6E6'
+				}
+            },
+            accessibility: {
+                description: 'Edad (femenino)'
+            }
+        }],
+        yAxis: {
+            title: {
+                text: 'Personas (cantidad)',
+                style: {
+					color: '#E6E6E6'
+				}
+            },
+            labels: {
+                formatter: function () {
+                    return Math.abs(this.value);
+                },
+                style: {
+					color: '#E6E6E6'
+				}
+            },
+            accessibility: {
+                description: 'Porcentaje de la Población',
+                rangeDescription: 'Rango: 0 to 5%'
+            }
+        },
+		plotOptions: {
+			bar: {
+				dataLabels: {
+					enabled: false,
+					color: '#E6E6E6',
+					style: {
+						textOutline: 'none'
+					}
+				},
+			},
+			series: {
+                borderColor: 'none',
+                stacking: 'normal'
+			}
+        },
+        tooltip: {
+            formatter: function () {
+                var porcentaje = 0
+                if (this.series.name === 'Masculino') {
+                    porcentaje = data_hombres_porcentajes[this.series.data.indexOf( this.point )]
+                } else if (this.series.name === 'Femenino') {
+                    porcentaje = data_mujeres_porcentajes[this.series.data.indexOf( this.point )]
+                }
+                return '<b>' + this.series.name + ', edad ' + this.point.category + 
+                    '</b><br/>Porcentaje: ' + Math.abs(porcentaje) +
+                    '%</b><br/>Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
+            }
+        },
+        series: [{
+            name: 'Masculino',
+            data: data_hombres
+        }, {
+            name: 'Femenino',
+            data: data_mujeres
+        }],
 		credits: {
 			enabled: false
 		},
-		legend: {
-			labelFormat: '{name} <span style="opacity: 0.4">{y}</span>',
-			itemStyle: {
-				color: '#E6E6E6'
-			}
-		},
-	
-		series: [{
-			name: 'Ciudadanos',
-			keys: ['name', 'y', 'color', 'label'],
-			data: [
-				['Hombres', hombres, '#96F5F5', 'Hombres'],
-				['Mujeres', mujeres, '#ecad08', 'Mujeres']
-			],
-			dataLabels: {
-				enabled: true,
-				format: '{point.label}',
-				color: '#E6E6E6',
-				style: {
-					textOutline: 'none'
-				}
-			},
-	
-			// Circular options
-			center: ['50%', '88%'],
-			size: '170%',
-			startAngle: -100,
-			endAngle: 100
-		}],
 		exporting: {
 			buttons: {
 				contextButton: {
@@ -167,7 +262,6 @@ function Ciudadanos(props) {
 	return(
 		<HighchartsReact
 			highcharts={Highcharts}
-			constructorType = { 'chart' }
 			options={options}
 			containerProps = {{ style: {height: '525px'} }}
 		/>
@@ -231,7 +325,7 @@ const darkTheme = createMuiTheme({
 	}
 });
 
-export default function CiudadanosParliamentChart() {
+export default function CiudadanosPyramidBarChart() {
 
 	const classes = useStyles();
 	const [state, setState] = useState({

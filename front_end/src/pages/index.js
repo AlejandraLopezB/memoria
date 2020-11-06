@@ -59,7 +59,7 @@ export default function Home() {
 								<p>Ciudadanos por asistentes o expositores</p>
 							</MenuContainer>
 						</Link>
-						<Link to="ciudadanos-parliament-chart">
+						<Link to="ciudadanos-pyramidbar-chart">
 							<MenuContainer>
 								<p>Survey</p>
 							</MenuContainer>
