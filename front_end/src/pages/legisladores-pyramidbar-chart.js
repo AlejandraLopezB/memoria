@@ -12,19 +12,9 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 import moment from 'moment'
 
-const GET_LEGISLADORES_PERIODO_9 = gql`
-	query getLegisladores {
-        legisladores(periodo:9) {
-			genero
-			cargo
-            fecha_nacimiento
-        }
-	}
-`;
-
-const GET_LEGISLADORES_PERIODO_8 = gql`
-	query getLegisladores {
-        legisladores(periodo:8) {
+const GET_LEGISLADORES = gql`
+	query getLegisladores($periodo: ID!) {
+        legisladores(periodo: $periodo) {
 			genero
 			cargo
             fecha_nacimiento
@@ -39,7 +29,11 @@ function porcentajeEdad(ages, numero_personas) {
 
 function Legisladores(props) {
 
-	var { loading, error, data } = useQuery(parseInt(props.periodo) === 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
+    var periodo = props.periodo
+
+	var { loading, error, data } = useQuery(GET_LEGISLADORES, {
+        variables: { periodo }
+    });
 
 	if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
@@ -206,9 +200,9 @@ function Legisladores(props) {
                 } else if (this.series.name === 'Femenino') {
                     porcentaje = data_mujeres_porcentajes[this.series.data.indexOf( this.point )]
                 }
-                return '<b>' + this.series.name + ', edad ' + this.point.category + '</b><br/>' +
-                    'Porcentaje: ' + Math.abs(porcentaje) + '%' + '</b><br/>' +
-                    'Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
+                return '<b>' + this.series.name + ', edad ' + this.point.category + 
+                    '</b><br/>Porcentaje: ' + Math.abs(porcentaje) +
+                    '%</b><br/>Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
             }
         },
         series: [{
@@ -268,7 +262,7 @@ const darkTheme = createMuiTheme({
 	}
 });
 
-export default function Legisladores01() {
+export default function LegisladoresPyramidBarChart() {
 
 	const classes = useStyles();
 	const [state, setState] = useState({

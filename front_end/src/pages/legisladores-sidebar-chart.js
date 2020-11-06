@@ -260,7 +260,7 @@ const darkTheme = createMuiTheme({
 	}
 });
 
-export default function Legisladores01() {
+export default function LegisladoresSidebarChart() {
 
 	const classes = useStyles();
 	const [state, setState] = useState({

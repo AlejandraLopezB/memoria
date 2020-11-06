@@ -47,15 +47,21 @@ export default function Home() {
 			<MenuGroupContainer>
 				<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
 				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-				<MenuContainer>
-						<p>Parliament Chart</p>
-					</MenuContainer>
-					<MenuContainer>
-						<p>Side Bar</p>
-					</MenuContainer>
-					<MenuContainer>
-						<p>Survey</p>
-					</MenuContainer>
+					<Link to="ciudadanos-parliament-chart">
+						<MenuContainer>
+							<p>Parliament Chart</p>
+						</MenuContainer>
+					</Link>
+					<Link to="ciudadanos-parliament-chart">
+						<MenuContainer>
+							<p>Side Bar</p>
+						</MenuContainer>
+					</Link>
+					<Link to="ciudadanos-parliament-chart">
+						<MenuContainer>
+							<p>Survey</p>
+						</MenuContainer>
+					</Link>
 				</div>
 			</MenuGroupContainer>
 			</div>

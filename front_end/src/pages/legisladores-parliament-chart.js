@@ -11,18 +11,9 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const GET_LEGISLADORES_PERIODO_9 = gql`
-	query getLegisladores {
-        legisladores(periodo:9) {
-			genero
-			cargo
-        }
-	}
-`;
-
-const GET_LEGISLADORES_PERIODO_8 = gql`
-	query getLegisladores {
-        legisladores(periodo:8) {
+const GET_LEGISLADORES = gql`
+	query getLegisladores($periodo: ID!) {
+        legisladores(periodo: $periodo) {
 			genero
 			cargo
         }
@@ -31,7 +22,11 @@ const GET_LEGISLADORES_PERIODO_8 = gql`
 
 function Legisladores(props) {
 
-	var { loading, error, data } = useQuery(parseInt(props.periodo) === 8? GET_LEGISLADORES_PERIODO_8 : GET_LEGISLADORES_PERIODO_9);
+	var periodo = props.periodo
+
+	var { loading, error, data } = useQuery(GET_LEGISLADORES, {
+		variables: { periodo }
+	});
 
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
@@ -84,7 +79,7 @@ function Legisladores(props) {
 		},
 	
 		series: [{
-			name: 'Representatives',
+			name: 'Legisladores',
 			keys: ['name', 'y', 'color', 'label'],
 			data: [
 				['Hombres', hombres, '#96F5F5', 'Hombres'],
@@ -153,7 +148,7 @@ const darkTheme = createMuiTheme({
 	}
 });
 
-export default function Legisladores01() {
+export default function LegisladoresParliamentChart() {
 
 	const classes = useStyles();
 	const [state, setState] = useState({
