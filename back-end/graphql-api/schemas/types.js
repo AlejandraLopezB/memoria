@@ -12,7 +12,7 @@ const typeDefs = gql`
 		# personasPorTipo(tipo: String!): [Persona]
 		# periodosLegislativos: [PeriodoLegislativo]
 		# periodoLegislativo(periodo_legislativo: ID!): PeriodoLegislativo
-		# comision(idcomision: ID!): Comision
+		comision(idcomision: ID!): Comision
 		sesionesPorAno(ano: Int!): [Sesion]
 		sesionesPorComisionYAno(idcomision: ID!, ano: Int!): [Sesion]
 		# sesionesPorComisionYPeriodo(idcomision: ID!, periodo_legislativo: ID!): [Sesion]

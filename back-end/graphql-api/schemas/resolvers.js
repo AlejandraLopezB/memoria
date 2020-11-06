@@ -75,16 +75,16 @@ const resolvers = {
         //         return err;
         //     }
         // },
-        // comision: async (_, args) => {
-        //     const query = `SELECT * FROM comision WHERE idcomision = $1`;
-        //     const values = [args.idcomision];
-        //     try {
-        //         const res = await db.one(query, values);
-        //         return res;
-        //     } catch (err) {
-        //         return err;
-        //     }
-        // },
+        comision: async (_, args) => {
+            const query = `SELECT * FROM comision WHERE idcomision = $1`;
+            const values = [args.idcomision];
+            try {
+                const res = await db.one(query, values);
+                return res;
+            } catch (err) {
+                return err;
+            }
+        },
         sesionesPorAno: async (_, args) => {
             const query = `SELECT * FROM sesion WHERE extract(year from fecha) = $1`;
             const values = [args.ano];
