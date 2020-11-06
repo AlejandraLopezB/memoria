@@ -49,12 +49,14 @@ export default function Home() {
 				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 					<Link to="ciudadanos-parliament-chart">
 						<MenuContainer>
-							<p>Parliament Chart</p>
+							<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
+							<p>Ciudadanos por género</p>
 						</MenuContainer>
 					</Link>
 					<Link to="ciudadanos-sidebar-chart">
 						<MenuContainer>
-							<p>Side Bar</p>
+							<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
+							<p>Ciudadanos por asistentes o expositores</p>
 						</MenuContainer>
 					</Link>
 					<Link to="ciudadanos-parliament-chart">
