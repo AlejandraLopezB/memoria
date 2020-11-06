@@ -3,9 +3,17 @@ import footerStyles from "./footer.module.css"
 
 export default function Footer({ children }) {
 	return (
-        <div className={footerStyles.footer}>
-            <p>versión 0.1.0</p>
-            {children}
+        <div style={{ position: `absolute`, bottom: `0`, width: `95%`}}>
+            <div className={footerStyles.footer}>
+                <div className={footerStyles.footerItem, footerStyles.footerOne}></div>
+                <div className={footerStyles.footerItem, footerStyles.footerTwo}>
+                    <p>Datos obtenidos del Congreso Nacional de Chile desde 03/01/2015 hasta 19/12/2017</p>
+                </div>
+                <div className={footerStyles.footerItem, footerStyles.footerThree}>
+                    <p style={{ display: `flex`, justifyContent: `flex-end`}}>versión 0.1.0</p>
+                </div>
+                {children}
+            </div>
         </div>
     )
 }

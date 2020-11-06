@@ -22,50 +22,50 @@ export default function Home() {
 			<h3 style={{ textAlign: `center` }}>Visualizaciones</h3>
 
 			<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-			<MenuGroupContainer>
-				<h2 style={{ textAlign: `center` }}>Legisladores</h2>
-				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-					<Link to="/legisladores-parliament-chart">
-						<MenuContainer>
-							<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
-							<p>Legisladores por género</p>
-						</MenuContainer>
-					</Link>
-					<Link to="/legisladores-sidebar-chart">
-						<MenuContainer>
-							<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
-							<p>Legisladores por partido político</p>
-						</MenuContainer>
-					</Link>
-					<Link to="/legisladores-pyramidbar-chart">
-						<MenuContainer>
-							<p>Pyramid Bar Chart</p>
-						</MenuContainer>
-					</Link>
-				</div>
-			</MenuGroupContainer>
-			<MenuGroupContainer>
-				<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
-				<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
-					<Link to="ciudadanos-parliament-chart">
-						<MenuContainer>
-							<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
-							<p>Ciudadanos por género</p>
-						</MenuContainer>
-					</Link>
-					<Link to="ciudadanos-sidebar-chart">
-						<MenuContainer>
-							<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
-							<p>Ciudadanos por asistentes o expositores</p>
-						</MenuContainer>
-					</Link>
-					<Link to="ciudadanos-parliament-chart">
-						<MenuContainer>
-							<p>Survey</p>
-						</MenuContainer>
-					</Link>
-				</div>
-			</MenuGroupContainer>
+				<MenuGroupContainer>
+					<h2 style={{ textAlign: `center` }}>Legisladores</h2>
+					<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
+						<Link to="/legisladores-parliament-chart">
+							<MenuContainer>
+								<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
+								<p>Legisladores por género</p>
+							</MenuContainer>
+						</Link>
+						<Link to="/legisladores-sidebar-chart">
+							<MenuContainer>
+								<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
+								<p>Legisladores por partido político</p>
+							</MenuContainer>
+						</Link>
+						<Link to="/legisladores-pyramidbar-chart">
+							<MenuContainer>
+								<p>Pyramid Bar Chart</p>
+							</MenuContainer>
+						</Link>
+					</div>
+				</MenuGroupContainer>
+				<MenuGroupContainer>
+					<h2 style={{ textAlign: `center` }}>Participación Ciudadana</h2>
+					<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
+						<Link to="ciudadanos-parliament-chart">
+							<MenuContainer>
+								<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
+								<p>Ciudadanos por género</p>
+							</MenuContainer>
+						</Link>
+						<Link to="ciudadanos-sidebar-chart">
+							<MenuContainer>
+								<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
+								<p>Ciudadanos por asistentes o expositores</p>
+							</MenuContainer>
+						</Link>
+						<Link to="ciudadanos-parliament-chart">
+							<MenuContainer>
+								<p>Survey</p>
+							</MenuContainer>
+						</Link>
+					</div>
+				</MenuGroupContainer>
 			</div>
 		</Layout>
 	)

@@ -16,7 +16,7 @@ export default function Layout({ children }) {
             <div className={layoutStyles.layout}>
                 <Helmet>
                     <meta charSet="utf-8" />
-                    <title>Viz Congreso</title>
+                    <title>Congreso</title>
                 </Helmet>
                 {children}
                 <Footer></Footer>

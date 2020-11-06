@@ -1,8 +1,17 @@
 .footer {
-    margin: 1em 2em;
-    bottom: 0;
-    right: 0;
-    position: absolute;
+    display: flex;
+    justify-content: space-between;
     color: #aaaaaa;
     font-size: small;
+    margin: 0.5em;
+}
+
+.footerItem {
+    flex: 1;
+}
+
+.footerOne,
+.footerThree {
+    flex: initial;
+    width: 300px;
 }
