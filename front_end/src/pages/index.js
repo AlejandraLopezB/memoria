@@ -61,7 +61,7 @@ export default function Home() {
 						</Link>
 						<Link to="ciudadanos-pyramidbar-chart">
 							<MenuContainer>
-								<p>Survey</p>
+								<p>Pyramid Chart</p>
 							</MenuContainer>
 						</Link>
 					</div>

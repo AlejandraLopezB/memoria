@@ -61,6 +61,8 @@ function Ciudadanos(props) {
 	if (error) return `Error! ${error.message}`;
 
 	var hombres = 0;
+	var hombres_porcentaje = 0;
+	var mujeres_porcentaje = 0;
 	var mujeres = 0;
     var total = 0;
     var listaGenero = []
@@ -77,6 +79,8 @@ function Ciudadanos(props) {
         hombres = listaGenero.filter(element => element === "M").length;
 		mujeres = listaGenero.filter(element => element === "F").length;
 		total = hombres + mujeres;
+		hombres_porcentaje = parseInt(((hombres*100)/total).toFixed(0))
+		mujeres_porcentaje = parseInt(((mujeres*100)/total).toFixed(0))
     } else {
         data.sesionesPorComisionYAno.forEach(element => {
 			element.sesionLog.forEach(element => {
@@ -88,8 +92,10 @@ function Ciudadanos(props) {
 
         hombres = listaGenero.filter(element => element === "M").length;
 		mujeres = listaGenero.filter(element => element === "F").length;
-        total = hombres + mujeres;
-    }
+		total = hombres + mujeres;
+		hombres_porcentaje = parseInt(((hombres*100)/total).toFixed(0))
+		mujeres_porcentaje = parseInt(((mujeres*100)/total).toFixed(0))
+	}
 
 	const options = {
 		chart: {
@@ -114,18 +120,33 @@ function Ciudadanos(props) {
 			enabled: false
 		},
 		legend: {
-			labelFormat: '{name} <span style="opacity: 0.4">{y}</span>',
+			labelFormat: '{name} <span style="opacity: 0.4">{y}%</span>',
 			itemStyle: {
 				color: '#E6E6E6'
 			}
 		},
-	
+		tooltip: {
+            formatter: function () {
+				var porcentaje = 0
+				var cantidad = 0
+				if (this.point.label === 'Hombres') {
+					porcentaje = hombres_porcentaje
+					cantidad = hombres
+				} else if (this.point.label === 'Mujeres') {
+					porcentaje = mujeres_porcentaje
+					cantidad = mujeres
+				}
+                return '<b>' + this.point.label + 
+                    '</b><br/>Porcentaje: ' + porcentaje +
+                    '%</b><br/>Cantidad Personas: ' + cantidad;
+            }
+        },	
 		series: [{
-			name: 'Ciudadanos',
+			name: 'Porcentaje',
 			keys: ['name', 'y', 'color', 'label'],
 			data: [
-				['Hombres', hombres, '#96F5F5', 'Hombres'],
-				['Mujeres', mujeres, '#ecad08', 'Mujeres']
+				['Hombres', hombres_porcentaje, '#96F5F5', 'Hombres'],
+				['Mujeres', mujeres_porcentaje, '#ecad08', 'Mujeres']
 			],
 			dataLabels: {
 				enabled: true,
