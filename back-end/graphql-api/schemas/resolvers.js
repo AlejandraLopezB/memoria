@@ -85,6 +85,16 @@ const resolvers = {
                 return err;
             }
         },
+        // sesionesPorPeriodo: async (_, args) => {
+        //     const query = `SELECT * FROM sesion WHERE periodo_legislativo = $1`;
+        //     const values = [args.periodo_legislativo];
+        //     try {
+        //         const res = await db.manyOrNone(query, values);
+        //         return res;
+        //     } catch (err) {
+        //         return err;
+        //     }
+        // },
         sesionesPorAno: async (_, args) => {
             const query = `SELECT * FROM sesion WHERE extract(year from fecha) = $1`;
             const values = [args.ano];
@@ -135,6 +145,15 @@ const resolvers = {
         },
         comisiones: async () => {
             const query = `SELECT * FROM comision ORDER BY nombre`;
+            try {
+                const res = await db.manyOrNone(query);
+                return res;
+            } catch (err) {
+                return err;
+            }
+        },
+        interacciones: async () => {
+            const query = `SELECT * FROM interacciones`;
             try {
                 const res = await db.manyOrNone(query);
                 return res;

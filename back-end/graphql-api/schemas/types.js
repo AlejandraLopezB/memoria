@@ -13,12 +13,14 @@ const typeDefs = gql`
 		# periodosLegislativos: [PeriodoLegislativo]
 		# periodoLegislativo(periodo_legislativo: ID!): PeriodoLegislativo
 		comision(idcomision: ID!): Comision
+		# sesionesPorPeriodo(periodo_legislativo: ID!): [Sesion]
 		sesionesPorAno(ano: Int!): [Sesion]
 		sesionesPorComisionYAno(idcomision: ID!, ano: Int!): [Sesion]
 		# sesionesPorComisionYPeriodo(idcomision: ID!, periodo_legislativo: ID!): [Sesion]
 		# partidoPorPeriodo: [PartidoPorPeriodo]
 		personaPorPartidoYPeriodo: [PersonaPorPartidoYPeriodo]
 		comisiones: [Comision]
+		interacciones: [Interacciones]
 	}
 	
 	type Persona {
@@ -68,6 +70,7 @@ const typeDefs = gql`
 	type SesionLog {
 		idsesionlog: ID!
 		idsesion: ID!
+		idcomision: ID!
 		idpersona: ID
 		personas: [Persona]
 		asistente: Boolean
@@ -91,6 +94,18 @@ const typeDefs = gql`
 		idpartidoporperiodo: ID!
 		partidoPorPeriodo: PartidoPorPeriodo
 		cargo: String
+	}
+
+	type Interacciones {
+		periodo_legislativo: ID!
+		ano: Int
+		idcomision: ID!
+		asistente: Int
+		expositor: Int
+		asistente_femenino: Int
+		expositor_femenino: Int
+		asistente_masculino: Int
+		expositor_masculino: Int
 	}
 `;
 
