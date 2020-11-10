@@ -19,7 +19,6 @@ export default function Home() {
     return (
 		<Layout>
 			<h1 style={{ textAlign: `center` }}>Congreso de Chile</h1>
-			<h3 style={{ textAlign: `center` }}>Visualizaciones</h3>
 
 			<div style={{ display: `flex`, justifyContent: `center`, flexWrap: `wrap`}}>
 				<MenuGroupContainer>
