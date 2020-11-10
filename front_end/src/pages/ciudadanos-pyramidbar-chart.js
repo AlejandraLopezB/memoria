@@ -11,33 +11,20 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const GET_GENERO_COMISION_ANO = gql`
-    query get_genero($idcomision: ID!, $ano: Int!) {
-        sesionesPorComisionYAno(idcomision: $idcomision, ano: $ano) {
+const GET_INTERACCIONES = gql`
+    query interacciones {
+        interacciones {
             idcomision
-            sesionLog {
-                personas {
-                    genero
-                }
-                asistente
-                expositor
-            }
+            periodo_legislativo
+            ano
+            asistente
+            expositor
+            asistente_femenino
+            expositor_femenino
+            asistente_masculino
+            expositor_masculino
         }
-    }
-`;
-
-const GET_GENERO_ANO = gql`
-    query get_genero($ano: Int!) {
-        sesionesPorAno(ano: $ano) {
-            sesionLog {
-                personas {
-                    genero
-                }
-                asistente
-                expositor
-            }
-        }
-    }
+	}
 `;
 
 const GET_COMISIONES = gql`
@@ -54,13 +41,8 @@ function Ciudadanos(props) {
 
     var ano = parseInt(props.ano)
     var idcomision = parseInt(props.idcomision)
-
-    var query = idcomision === 0 ? GET_GENERO_ANO : GET_GENERO_COMISION_ANO
-    var variables = idcomision === 0 ? { ano } : { idcomision, ano }
     
-    var { loading, error, data } = useQuery(query, {
-		variables: variables
-	});
+    var { loading, error, data } = useQuery(GET_INTERACCIONES);
 
 	if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
@@ -69,62 +51,46 @@ function Ciudadanos(props) {
     var categories_all = [
         'Asistentes', 'Expositores'
     ];
-
-    var hombres = []
-    var mujeres = []
+    
     var numero_personas = 0
     var data_hombres = [0,0]
     var data_mujeres = [0,0]
     var data_hombres_porcentajes = [0,0]
     var data_mujeres_porcentajes = [0,0]
-    var listaGenero = []
 
     if (idcomision === 0) {
-        data.sesionesPorAno.forEach(element => {
-            element.sesionLog.forEach(element => {
-                listaGenero.push({
-                    asistente: element.asistente,
-                    expositor: element.expositor,
-                    genero: element.personas[0].genero
-                })
-            })
+        data.interacciones.forEach(element => {
+            if (element.ano === ano) {
+                data_hombres[0] -= element.asistente_masculino
+                data_hombres[1] -= element.expositor_masculino
+                data_mujeres[0] += element.asistente_femenino
+                data_mujeres[1] += element.expositor_femenino
+            }
         })
 
-        hombres = listaGenero.filter(element => element.genero === "M");
-        mujeres = listaGenero.filter(element => element.genero === "F");
-        numero_personas = hombres.length + mujeres.length
+        numero_personas = Math.abs(data_hombres[0]) + Math.abs(data_hombres[1]) + data_mujeres[0] + data_mujeres[1]
 
-        data_hombres[0] = -hombres.filter(element => element.asistente === true).length
-        data_hombres[1] = -hombres.filter(element => element.expositor === true).length
         data_hombres_porcentajes[0] = ((data_hombres[0]*100)/numero_personas).toFixed(1)
         data_hombres_porcentajes[1] = ((data_hombres[1]*100)/numero_personas).toFixed(1)
 
-        data_mujeres[0] = mujeres.filter(element => element.asistente === true).length
-        data_mujeres[1] = mujeres.filter(element => element.expositor === true).length
         data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
         data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     } else {
-        data.sesionesPorComisionYAno.forEach(element => {
-            element.sesionLog.forEach(element => {
-                listaGenero.push({
-                    asistente: element.asistente,
-                    expositor: element.expositor,
-                    genero: element.personas[0].genero
-                })
-            })
+        data.interacciones.forEach(element => {
+            if (element.ano === ano && parseInt(element.idcomision) === idcomision) {
+                data_hombres[0] -= element.asistente_masculino
+                data_hombres[1] -= element.expositor_masculino
+                data_mujeres[0] += element.asistente_femenino
+                data_mujeres[1] += element.expositor_femenino
+            }
         })
 
-        hombres = listaGenero.filter(element => element.genero === "M");
-        mujeres = listaGenero.filter(element => element.genero === "F");
-        numero_personas = hombres.length + mujeres.length
+        numero_personas = Math.abs(data_hombres[0]) + Math.abs(data_hombres[1]) + data_mujeres[0] + data_mujeres[1]
+        console.log(numero_personas)
 
-        data_hombres[0] = -hombres.filter(element => element.asistente === true).length
-        data_hombres[1] = -hombres.filter(element => element.expositor === true).length
         data_hombres_porcentajes[0] = ((data_hombres[0]*100)/numero_personas).toFixed(1)
         data_hombres_porcentajes[1] = ((data_hombres[1]*100)/numero_personas).toFixed(1)
 
-        data_mujeres[0] = mujeres.filter(element => element.asistente === true).length
-        data_mujeres[1] = mujeres.filter(element => element.expositor === true).length
         data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
         data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     }
@@ -145,7 +111,7 @@ function Ciudadanos(props) {
 			}
 		},
 		subtitle: {
-			text: 'Personas (total: ' + numero_personas + ') agrupadas por asistentes o expositores'
+			text: 'Personas (total: ' + numero_personas + ') agrupadas por asistentes o expositores y género'
         },
         accessibility: {
             point: {

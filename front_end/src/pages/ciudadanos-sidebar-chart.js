@@ -11,30 +11,13 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const GET_POR_COMISION = gql`
-    query get_datos($idcomision: ID!) {
-        comision(idcomision: $idcomision) {
-			sesiones {
-				periodo_legislativo
-				sesionLog {
-					asistente
-					expositor
-				}
-			}
-		}
-    }
-`;
-
-const GET_TOTAL_DATOS_COMISIONES = gql`
-	query get_total_comisiones {
-		comisiones {
-			sesiones {
-				periodo_legislativo
-				sesionLog {
-					asistente
-					expositor
-				}
-			}
+const GET_INTERACCIONES = gql`
+	query interacciones {
+		interacciones {
+			idcomision
+			periodo_legislativo
+			asistente
+			expositor
 		}
 	}
 `;
@@ -53,17 +36,14 @@ function Legisladores(props) {
 
 	var idcomision = parseInt(props.idcomision)
 
-	var query = idcomision === 0 ? GET_TOTAL_DATOS_COMISIONES : GET_POR_COMISION
-
-	var { loading, error, data } = useQuery(query, {
-		variables: { idcomision }
-	});
+	var { loading, error, data } = useQuery(GET_INTERACCIONES);
 
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
+	
+	var periodo8 = data.interacciones.filter(element => parseInt(element.periodo_legislativo) === 8)
+	var periodo9 = data.interacciones.filter(element => parseInt(element.periodo_legislativo) === 9)
 
-	var periodo8 = []
-	var periodo9 = []
 	var dataParticipacion = [];
 
 	dataParticipacion.push({
@@ -76,56 +56,26 @@ function Legisladores(props) {
 	})
 
 	if (idcomision === 0) {
-		data.comisiones.forEach(element => {
-			if (element.sesiones && element.sesiones.length) {
-				periodo8 = element.sesiones.filter(element => parseInt(element.periodo_legislativo) === 8)
-				periodo9 = element.sesiones.filter(element => parseInt(element.periodo_legislativo) === 9)
-
-				periodo8.forEach(element => {
-					element.sesionLog.forEach(element => {
-						if (element.asistente === true) {
-							dataParticipacion[0].data[0] += 1
-						}
-						if (element.expositor === true) {
-							dataParticipacion[1].data[0] += 1
-						}
-					})
-				})
-				periodo9.forEach(element => {
-					element.sesionLog.forEach(element => {
-						if (element.asistente === true) {
-							dataParticipacion[0].data[1] += 1
-						}
-						if (element.expositor === true) {
-							dataParticipacion[1].data[1] += 1
-						}
-					})
-				})
-			}
-		})
-	} else {
-		periodo8 = data.comision.sesiones.filter(element => parseInt(element.periodo_legislativo) === 8)
-		periodo9 = data.comision.sesiones.filter(element => parseInt(element.periodo_legislativo) === 9)
-
 		periodo8.forEach(element => {
-			element.sesionLog.forEach(element => {
-				if (element.asistente === true) {
-					dataParticipacion[0].data[0] += 1
-				}
-				if (element.expositor === true) {
-					dataParticipacion[1].data[0] += 1
-				}
-			})
+			dataParticipacion[0].data[0] += element.asistente
+			dataParticipacion[1].data[0] += element.expositor
 		})
 		periodo9.forEach(element => {
-			element.sesionLog.forEach(element => {
-				if (element.asistente === true) {
-					dataParticipacion[0].data[1] += 1
-				}
-				if (element.expositor === true) {
-					dataParticipacion[1].data[1] += 1
-				}
-			})
+			dataParticipacion[0].data[1] += element.asistente
+			dataParticipacion[1].data[1] += element.expositor
+		})
+	} else {
+		periodo8.forEach(element => {
+			if (parseInt(element.idcomision) === idcomision) {
+				dataParticipacion[0].data[0] += element.asistente
+				dataParticipacion[1].data[0] += element.expositor
+			}
+		})
+		periodo9.forEach(element => {
+			if (parseInt(element.idcomision) === idcomision) {
+				dataParticipacion[0].data[1] += element.asistente
+				dataParticipacion[1].data[1] += element.expositor
+			}
 		})
 	}
 
