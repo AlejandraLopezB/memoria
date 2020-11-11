@@ -1,6 +1,7 @@
 .homeNav {
     margin-bottom: 0.2em;
     color: #E6E6E6;
+    display: flex;
 }
 
 .homeNav:hover {

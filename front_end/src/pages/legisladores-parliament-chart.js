@@ -199,8 +199,8 @@ export default function LegisladoresParliamentChart() {
 						name: 'periodo'
 					}}
 					>
-					<option value={8}>8</option>
-					<option value={9}>9</option>
+					<option value={8}>2014 - 2018</option>
+					<option value={9}>2018 - 2022</option>
 					</Select>
 				</FormControl>
 			</ThemeProvider>

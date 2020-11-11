@@ -9,6 +9,7 @@ import HighchartsExporting from 'highcharts/modules/exporting'
 import HighchartsTheme from 'highcharts/themes/high-contrast-dark.src'
 import parliamentLogo from "../utils/parliament-logo.png"
 import sidebarLogo from "../utils/sidebar-logo.png"
+import pyramidbarLogo from "../utils/pyramidbar-logo.png"
 
 // init the module
 highchartsItem(Highcharts);
@@ -38,7 +39,8 @@ export default function Home() {
 						</Link>
 						<Link to="/legisladores-pyramidbar-chart">
 							<MenuContainer>
-								<p>Pyramid Bar Chart</p>
+								<img src={pyramidbarLogo} style={{ maxWidth: `50%`, margin: `0.7em 0` }} alt="PyramidBar Chart Logo" />
+								<p>Legisladores por género y edad</p>
 							</MenuContainer>
 						</Link>
 					</div>
@@ -60,7 +62,8 @@ export default function Home() {
 						</Link>
 						<Link to="ciudadanos-pyramidbar-chart">
 							<MenuContainer>
-								<p>Pyramid Chart</p>
+								<img src={pyramidbarLogo} style={{ maxWidth: `50%`, margin: `0.7em 0` }} alt="PyramidBar Chart Logo" />
+								<p>Ciudadanos por género, asistentes y expositores</p>
 							</MenuContainer>
 						</Link>
 					</div>

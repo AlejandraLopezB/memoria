@@ -115,7 +115,7 @@ function Ciudadanos(props) {
         },
         accessibility: {
             point: {
-                valueDescriptionFormat: '{index}. Edad {xDescription}, {value}%.'
+                valueDescriptionFormat: '{index}. {xDescription}, {value}%.'
             }
         },
         xAxis: [{
@@ -128,7 +128,7 @@ function Ciudadanos(props) {
 				}
             },
             accessibility: {
-                description: 'Edad (masculino)'
+                description: 'Asistentes o Expositores (masculino)'
             }
         }, { // mirror axis on right side
             opposite: true,
@@ -142,7 +142,7 @@ function Ciudadanos(props) {
 				}
             },
             accessibility: {
-                description: 'Edad (femenino)'
+                description: 'Asistentes o Expositores (femenino)'
             }
         }],
         yAxis: {
@@ -162,7 +162,7 @@ function Ciudadanos(props) {
             },
             accessibility: {
                 description: 'Porcentaje de la Población',
-                rangeDescription: 'Rango: 0 to 5%'
+                rangeDescription: 'Rango: 0 a 5%'
             }
         },
 		plotOptions: {
@@ -177,7 +177,7 @@ function Ciudadanos(props) {
 			},
 			series: {
                 borderColor: 'none',
-                stacking: 'normal'
+                stacking: 'normal',                
 			}
         },
         tooltip: {
@@ -188,17 +188,19 @@ function Ciudadanos(props) {
                 } else if (this.series.name === 'Femenino') {
                     porcentaje = data_mujeres_porcentajes[this.series.data.indexOf( this.point )]
                 }
-                return '<b>' + this.series.name + ', edad ' + this.point.category + 
+                return '<b>' + this.series.name + ', ' + this.point.category + 
                     '</b><br/>Porcentaje: ' + Math.abs(porcentaje) +
                     '%</b><br/>Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
             }
         },
         series: [{
             name: 'Masculino',
-            data: data_hombres
+            data: data_hombres,
+            color: '#96F5F5'
         }, {
             name: 'Femenino',
-            data: data_mujeres
+            data: data_mujeres,
+            color: '#ecad08'
         }],
 		credits: {
 			enabled: false

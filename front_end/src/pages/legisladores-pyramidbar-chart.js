@@ -142,6 +142,7 @@ function Legisladores(props) {
             accessibility: {
                 description: 'Edad (masculino)'
             }
+			
         }, { // mirror axis on right side
             opposite: true,
             reversed: false,
@@ -189,7 +190,9 @@ function Legisladores(props) {
 			},
 			series: {
                 borderColor: 'none',
-                stacking: 'normal'
+                stacking: 'normal',
+                negativeColor: '#96F5F5',
+                color: '#ecad08'
 			}
         },
         tooltip: {
@@ -313,8 +316,8 @@ export default function LegisladoresPyramidBarChart() {
 						name: 'periodo'
 					}}
 					>
-					<option value={8}>8</option>
-					<option value={9}>9</option>
+					<option value={8}>2014 - 2018</option>
+					<option value={9}>2018 - 2022</option>
 					</Select>
 				</FormControl>
 			</ThemeProvider>
