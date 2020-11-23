@@ -210,10 +210,12 @@ function Legisladores(props) {
         },
         series: [{
             name: 'Masculino',
-            data: data_hombres
+            data: data_hombres,
+            color: '#96F5F5'
         }, {
             name: 'Femenino',
-            data: data_mujeres
+            data: data_mujeres,
+            color: '#ecad08'
         }],
 		credits: {
 			enabled: false
