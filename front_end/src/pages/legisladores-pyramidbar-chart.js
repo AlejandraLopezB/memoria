@@ -15,9 +15,11 @@ import moment from 'moment'
 const GET_LEGISLADORES = gql`
 	query getLegisladores($periodo: ID!) {
         legisladores(periodo: $periodo) {
-			genero
-			cargo
-            fecha_nacimiento
+            persona {
+                genero
+                fecha_nacimiento
+            }
+			cargolegislador
         }
 	}
 `;
@@ -63,42 +65,42 @@ function Legisladores(props) {
     var data_mujeres_porcentajes = []
 
 	if (props.legisladores === "todos") {
-        hombres = data.filter(element => element.genero === "M");
-        mujeres = data.filter(element => element.genero === "F");
+        hombres = data.filter(element => element.persona.genero === "M");
+        mujeres = data.filter(element => element.persona.genero === "F");
         numero_personas = data.length
         categories_all.forEach(element => {
             var ageStart = parseInt(element.substr(0, 2))
             var ageEnd = parseInt(element.substr(3, 2))
-            var agesMale = hombres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
-            var agesFemale = mujeres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
+            var agesMale = hombres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
+            var agesFemale = mujeres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
             data_hombres_porcentajes.push(-porcentajeEdad(agesMale, numero_personas))
             data_mujeres_porcentajes.push(porcentajeEdad(agesFemale, numero_personas))
             data_hombres.push(-agesMale.length)
             data_mujeres.push(agesFemale.length)
         })
     } else if (props.legisladores === "diputados") {
-        hombres = data.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada"));
-        mujeres = data.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada"));
+        hombres = data.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada"));
+        mujeres = data.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada"));
         numero_personas = hombres.length + mujeres.length
         categories_all.forEach(element => {
             var ageStart = parseInt(element.substr(0, 2))
             var ageEnd = parseInt(element.substr(3, 2))
-            var agesMale = hombres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
-            var agesFemale = mujeres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
+            var agesMale = hombres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
+            var agesFemale = mujeres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
             data_hombres_porcentajes.push(-porcentajeEdad(agesMale, numero_personas))
             data_mujeres_porcentajes.push(porcentajeEdad(agesFemale, numero_personas))
             data_hombres.push(-agesMale.length)
             data_mujeres.push(agesFemale.length)
         })
 	} else if (props.legisladores === "senadores") {
-        hombres = data.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora"));
-        mujeres = data.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora"));
+        hombres = data.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora"));
+        mujeres = data.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora"));
         numero_personas = hombres.length + mujeres.length
         categories_senators.forEach(element => {
             var ageStart = parseInt(element.substr(0, 2))
             var ageEnd = parseInt(element.substr(3, 2))
-            var agesMale = hombres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
-            var agesFemale = mujeres.filter(element => moment().diff(element.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.fecha_nacimiento, 'years') <= ageEnd)
+            var agesMale = hombres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
+            var agesFemale = mujeres.filter(element => moment().diff(element.persona.fecha_nacimiento, 'years') >= ageStart && moment().diff(element.persona.fecha_nacimiento, 'years') <= ageEnd)
             data_hombres_porcentajes.push(-porcentajeEdad(agesMale, numero_personas))
             data_mujeres_porcentajes.push(porcentajeEdad(agesFemale, numero_personas))
             data_hombres.push(-agesMale.length)

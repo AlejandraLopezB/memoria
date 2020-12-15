@@ -14,8 +14,10 @@ import { createMuiTheme } from '@material-ui/core/styles';
 const GET_LEGISLADORES = gql`
 	query getLegisladores($periodo: ID!) {
         legisladores(periodo: $periodo) {
-			genero
-			cargo
+			persona {
+				genero
+			}
+			cargolegislador
         }
 	}
 `;
@@ -36,16 +38,16 @@ function Legisladores(props) {
 	var total = 0;
 
 	if (props.legisladores === "todos") {
-		hombres = data.legisladores.filter(element => element.genero === "M").length;
-		mujeres = data.legisladores.filter(element => element.genero === "F").length;
+		hombres = data.legisladores.filter(element => element.persona.genero === "M").length;
+		mujeres = data.legisladores.filter(element => element.persona.genero === "F").length;
 		total = hombres + mujeres;
 	} else if (props.legisladores === "diputados") {
-		hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
-		mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Diputado" || element.cargo === "Diputada")).length;
+		hombres = data.legisladores.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
+		mujeres = data.legisladores.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
 		total = hombres + mujeres;
 	} else if (props.legisladores === "senadores") {
-		hombres = data.legisladores.filter(element => element.genero === "M" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
-		mujeres = data.legisladores.filter(element => element.genero === "F" && (element.cargo === "Senador" || element.cargo === "Senadora")).length;
+		hombres = data.legisladores.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
+		mujeres = data.legisladores.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
 		total = hombres + mujeres;
 	}
 
