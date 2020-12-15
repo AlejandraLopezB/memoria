@@ -79,6 +79,10 @@ function Legisladores(props) {
 		})
 	}
 
+	// agregar el campo color para cada objeto de la serie de datos
+	dataParticipacion[0].color = '#96F5F5'
+	dataParticipacion[1].color = '#ecad08'
+
 	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
 		chart: {
