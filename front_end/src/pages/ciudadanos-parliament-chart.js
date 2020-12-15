@@ -223,15 +223,6 @@ function Comisiones() {
             <optgroup label="Permanente">
                 {permanente}
             </optgroup>
-            <optgroup label="Comisión Especial">
-                {ce}
-            </optgroup>
-            <optgroup label="Comisión Especial Mixta">
-                {cem}
-            </optgroup>
-            <optgroup label="Otras">
-                {otras}
-            </optgroup>
         </Fragment>
     )
 }
