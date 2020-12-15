@@ -7,7 +7,7 @@ const typeDefs = gql`
 	type Query {
 		# persona(idpersona: ID!): Persona
 		# personas: [Persona]
-		legisladores(periodo: ID!): [Persona]
+		legisladores(periodo: ID!): [PersonaPorPartidoYPeriodo]
 		# personasPorCargo(cargo: String!): [Persona]
 		# personasPorTipo(tipo: String!): [Persona]
 		# periodosLegislativos: [PeriodoLegislativo]
@@ -93,7 +93,7 @@ const typeDefs = gql`
 		persona: Persona
 		idpartidoporperiodo: ID!
 		partidoPorPeriodo: PartidoPorPeriodo
-		cargo: String
+		cargolegislador: String
 	}
 
 	type Interacciones {
