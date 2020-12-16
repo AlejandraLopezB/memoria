@@ -37,6 +37,10 @@ const GET_COMISIONES = gql`
 	}
 `;
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function Ciudadanos(props) {
 
     var ano = parseInt(props.ano)
@@ -46,20 +50,18 @@ function Ciudadanos(props) {
 
 	if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
-
-    // Age categories
-    var categories_all = [
-        'Asistentes', 'Expositores'
-    ];
     
     var numero_personas = 0
     var data_hombres = [0,0]
     var data_mujeres = [0,0]
     var data_hombres_porcentajes = [0,0]
     var data_mujeres_porcentajes = [0,0]
+    var total_asistentes = 0
+    var total_expositores = 0
 
     if (idcomision === 0) {
         data.interacciones.forEach(element => {
+            console.log(element)
             if (element.ano === ano) {
                 data_hombres[0] -= element.asistente_masculino
                 data_hombres[1] -= element.expositor_masculino
@@ -86,7 +88,6 @@ function Ciudadanos(props) {
         })
 
         numero_personas = Math.abs(data_hombres[0]) + Math.abs(data_hombres[1]) + data_mujeres[0] + data_mujeres[1]
-        console.log(numero_personas)
 
         data_hombres_porcentajes[0] = ((data_hombres[0]*100)/numero_personas).toFixed(1)
         data_hombres_porcentajes[1] = ((data_hombres[1]*100)/numero_personas).toFixed(1)
@@ -94,6 +95,17 @@ function Ciudadanos(props) {
         data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
         data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     }
+
+    total_asistentes = Math.abs(data_hombres[0]) + data_mujeres[0]
+    total_expositores = Math.abs(data_hombres[1]) + data_mujeres[1]
+
+    var label_asistentes = 'Asistentes<br/>' + numberWithCommas(total_asistentes) + ' personas'
+    var label_expositores = 'Expositores<br/>' + numberWithCommas(total_expositores) + ' personas'
+
+    // Age categories
+    var categories_all = [
+        label_asistentes, label_expositores
+    ];
 
 	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
@@ -111,7 +123,8 @@ function Ciudadanos(props) {
 			}
 		},
 		subtitle: {
-			text: 'Personas (total: ' + numero_personas + ') agrupadas por asistentes o expositores y género'
+            text: 'Personas agrupadas por asistentes o expositores y género (expositores <b>no</b> contados dentro de los asistentes)' +
+            '<br/> Total: ' + numberWithCommas(numero_personas) + ' personas'
         },
         accessibility: {
             point: {
@@ -183,22 +196,22 @@ function Ciudadanos(props) {
         tooltip: {
             formatter: function () {
                 var porcentaje = 0
-                if (this.series.name === 'Masculino') {
+                if (this.series.name === 'Hombres') {
                     porcentaje = data_hombres_porcentajes[this.series.data.indexOf( this.point )]
-                } else if (this.series.name === 'Femenino') {
+                } else if (this.series.name === 'Mujeres') {
                     porcentaje = data_mujeres_porcentajes[this.series.data.indexOf( this.point )]
                 }
-                return '<b>' + this.series.name + ', ' + this.point.category + 
-                    '</b><br/>Porcentaje: ' + Math.abs(porcentaje) +
-                    '%</b><br/>Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
+                return '<b>' + this.point.category.substr(0, this.point.category.indexOf('<')) +
+                '</b><br/>'+ this.series.name + ': ' + numberWithCommas(Math.trunc(Math.abs(this.point.y), 1)) + ' personas' +
+                '<br/>Porcentaje: ' + Math.abs(porcentaje).toFixed(1) + '%';
             }
         },
         series: [{
-            name: 'Masculino',
+            name: 'Hombres',
             data: data_hombres,
             color: '#96F5F5'
         }, {
-            name: 'Femenino',
+            name: 'Mujeres',
             data: data_mujeres,
             color: '#ecad08'
         }],

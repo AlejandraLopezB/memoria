@@ -34,7 +34,9 @@ function Legisladores(props) {
 	if (error) return `Error! ${error.message}`;
 
 	var hombres = 0;
+	var hombres_porcentaje = 0;
 	var mujeres = 0;
+	var mujeres_porcentaje = 0;
 	var total = 0;
 
 	if (props.legisladores === "todos") {
@@ -50,6 +52,9 @@ function Legisladores(props) {
 		mujeres = data.legisladores.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
 		total = hombres + mujeres;
 	}
+
+	hombres_porcentaje = ((hombres*100)/total).toFixed(1)
+	mujeres_porcentaje = ((mujeres*100)/total).toFixed(1)
 
 	const options = {
 		chart: {
@@ -68,7 +73,7 @@ function Legisladores(props) {
 		},
 	
 		subtitle: {
-			text: 'Total Legisladores: ' + total
+			text: 'Total: ' + total + ' personas'
 		},
 		credits: {
 			enabled: false
@@ -79,6 +84,22 @@ function Legisladores(props) {
 				color: '#E6E6E6'
 			}
 		},
+		tooltip: {
+            formatter: function () {
+				var porcentaje = 0
+				var cantidad = 0
+				if (this.point.label === 'Hombres') {
+					porcentaje = hombres_porcentaje
+					cantidad = hombres
+				} else if (this.point.label === 'Mujeres') {
+					porcentaje = mujeres_porcentaje
+					cantidad = mujeres
+				}
+                return '<b>' + this.point.label + 
+                    '</b>: ' + cantidad + ' personas' +
+                    '<br/>Porcentaje: ' + porcentaje + '%';
+            }
+        },
 	
 		series: [{
 			name: 'Legisladores',

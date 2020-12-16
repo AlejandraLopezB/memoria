@@ -125,7 +125,8 @@ function Legisladores(props) {
 			}
 		},
 		subtitle: {
-			text: 'Legisladores (total: ' + numero_personas + ') agrupados por edad'
+            text: 'Legisladores agrupados por edad' + 
+            '<br/> Total: ' + numero_personas + ' personas'
         },
         accessibility: {
             point: {
@@ -200,22 +201,22 @@ function Legisladores(props) {
         tooltip: {
             formatter: function () {
                 var porcentaje = 0
-                if (this.series.name === 'Masculino') {
+                if (this.series.name === 'Hombres') {
                     porcentaje = data_hombres_porcentajes[this.series.data.indexOf( this.point )]
-                } else if (this.series.name === 'Femenino') {
+                } else if (this.series.name === 'Mujeres') {
                     porcentaje = data_mujeres_porcentajes[this.series.data.indexOf( this.point )]
                 }
-                return '<b>' + this.series.name + ', edad ' + this.point.category + 
-                    '</b><br/>Porcentaje: ' + Math.abs(porcentaje) +
-                    '%</b><br/>Cantidad: ' + Math.trunc(Math.abs(this.point.y), 1);
+                return '<b>Edad: ' + this.point.category + ' años</b><br/>' +
+                this.series.name + ': ' + Math.abs(this.point.y).toFixed(0) + ' personas' +
+                '<br/>Porcentaje: ' + Math.abs(porcentaje).toFixed(1) + '%';
             }
         },
         series: [{
-            name: 'Masculino',
+            name: 'Hombres',
             data: data_hombres,
             color: '#96F5F5'
         }, {
-            name: 'Femenino',
+            name: 'Mujeres',
             data: data_mujeres,
             color: '#ecad08'
         }],

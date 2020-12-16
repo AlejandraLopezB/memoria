@@ -32,6 +32,11 @@ const GET_COMISIONES = gql`
 	}
 `;
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
 function Legisladores(props) {
 
 	var idcomision = parseInt(props.idcomision)
@@ -45,13 +50,17 @@ function Legisladores(props) {
 	var periodo9 = data.interacciones.filter(element => parseInt(element.periodo_legislativo) === 9)
 
 	var dataParticipacion = [];
+	var total_participacion = {
+		periodo8: 0,
+		periodo9: 0
+	}
 
 	dataParticipacion.push({
-		name: "asistente",
+		name: "Asistentes",
 		data: [0,0]
 	})
 	dataParticipacion.push({
-		name: "expositor",
+		name: "Expositores",
 		data: [0,0]
 	})
 
@@ -79,6 +88,16 @@ function Legisladores(props) {
 		})
 	}
 
+	dataParticipacion.forEach(element => {
+		total_participacion.periodo8 += element.data[0]
+		total_participacion.periodo9 += element.data[1]
+	})
+
+	var total_personas = total_participacion.periodo8 + total_participacion.periodo9
+
+	var periodo8_label = '2014 - 2018<br/>' + numberWithCommas(total_participacion.periodo8) + ' personas'
+	var periodo9_label = '2018 - 2022<br/>' + numberWithCommas(total_participacion.periodo9) + ' personas'
+
 	// agregar el campo color para cada objeto de la serie de datos
 	dataParticipacion[0].color = '#96F5F5'
 	dataParticipacion[1].color = '#ecad08'
@@ -101,11 +120,12 @@ function Legisladores(props) {
 		},
 	
 		subtitle: {
-			text: 'Cantidad de personas agrupadas por asistente o expositor según el periodo legislativo'
+			text: 'Cantidad de personas agrupadas por asistente o expositor según el periodo legislativo (expositores <b>no</b> contados dentro de los asistentes)<br/>Total: ' + 
+			numberWithCommas(total_personas) + ' personas'
 		},
 	
 		xAxis: {
-			categories: ['2014 - 2018', '2018 - 2022'],
+			categories: [periodo8_label, periodo9_label],
 			title: {
 				text: "Periodo Legislativo"
 			},
@@ -133,8 +153,20 @@ function Legisladores(props) {
 			}
 		},
 		tooltip: {
-			valueSuffix: ' personas'
-		},
+            formatter: function () {
+				var porcentaje = 0
+				if (this.point.category.substr(0,11) === '2014 - 2018') {
+					porcentaje = (this.point.y*100)/total_participacion.periodo8
+				} else if (this.point.category.substr(0,11) === '2018 - 2022') {
+					porcentaje = (this.point.y*100)/total_participacion.periodo9
+				}
+                return '<b>' + this.point.category.substr(0,11) + 
+					'</b><br/><span style="height: 8px; width: 8px; border-radius: 50%; display: inline-block; background-color: ' + 
+					this.point.color + ';"></span> ' + this.series.name + ': ' + numberWithCommas(this.point.y) + ' personas' + 
+                    '<br/>Porcentaje: ' + porcentaje.toFixed(1) + '%';
+			},
+			useHTML: true
+        },
 		plotOptions: {
 			bar: {
 				dataLabels: {

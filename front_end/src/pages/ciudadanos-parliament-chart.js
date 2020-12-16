@@ -45,6 +45,10 @@ const GET_COMISIONES = gql`
 	}
 `;
 
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function Ciudadanos(props) {
 
     var ano = parseInt(props.ano)
@@ -114,7 +118,7 @@ function Ciudadanos(props) {
 		},
 	
 		subtitle: {
-			text: 'Total Personas: ' + total
+			text: 'Total: ' + numberWithCommas(total) + ' personas'
 		},
 		credits: {
 			enabled: false
@@ -137,8 +141,8 @@ function Ciudadanos(props) {
 					cantidad = mujeres
 				}
                 return '<b>' + this.point.label + 
-                    '</b><br/>Porcentaje: ' + porcentaje +
-                    '%</b><br/>Cantidad Personas: ' + cantidad;
+                    '</b>: ' + numberWithCommas(cantidad) + ' personas' +
+                    '<br/>Porcentaje: ' + porcentaje + '%';
             }
         },	
 		series: [{

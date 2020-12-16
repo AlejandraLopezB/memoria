@@ -40,6 +40,10 @@ function Legisladores(props) {
 	var periodo8 = data.filter(element => parseInt(element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo) === 8)
 	var periodo9 = data.filter(element => parseInt(element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo) === 9)
 	var dataPartidos = [];
+	var total_por_periodo = {
+		periodo8: 0,
+		periodo9: 0
+	}
 
 	if (props.legisladores === "todos") {
 		periodo8.forEach(element => {
@@ -130,6 +134,13 @@ function Legisladores(props) {
 		})
 	}
 
+	dataPartidos.forEach(element => {
+		total_por_periodo.periodo8 += element.data[0]
+		total_por_periodo.periodo9 += element.data[1]
+	})
+
+	var total_personas = total_por_periodo.periodo8 + total_por_periodo.periodo9
+
 	// #96F5F5 azul, #ecad08 amarillo, #E6E6E6 blanco
 	const options = {
 		chart: {
@@ -148,11 +159,12 @@ function Legisladores(props) {
 		},
 	
 		subtitle: {
-			text: 'Cantidad de Legisladores por Partido Político según el Periodo Legislativo'
+			text: 'Cantidad de Legisladores por Partido Político según el Periodo Legislativo<br/>Total: ' + 
+			total_personas + ' personas'
 		},
 	
 		xAxis: {
-			categories: ['2014 - 2018', '2018 - 2022'],
+			categories: ['2014 - 2018<br/>158 Legisladores', '2018 - 2022<br/>198 Legisladores'],
 			title: {
 				text: "Periodo Legislativo"
 			},
@@ -180,8 +192,20 @@ function Legisladores(props) {
 			}
 		},
 		tooltip: {
-			valueSuffix: ' personas'
-		},
+            formatter: function () {
+				var porcentaje = 0
+				if (this.point.category === '2014 - 2018<br/>158 Legisladores') {
+					porcentaje = (this.point.y*100)/total_por_periodo.periodo8
+				} else if (this.point.category === '2018 - 2022<br/>198 Legisladores') {
+					porcentaje = (this.point.y*100)/total_por_periodo.periodo9
+				}
+                return '<b>' + this.point.category.substr(0,11) + 
+					'</b><br/><span style="height: 8px; width: 8px; border-radius: 50%; display: inline-block; background-color: ' + 
+					this.point.color + ';"></span> ' + this.series.name + ': ' + this.point.y + ' personas' + 
+                    '<br/>Porcentaje: ' + porcentaje.toFixed(1) + '%';
+			},
+			useHTML: true
+        },
 		plotOptions: {
 			bar: {
 				dataLabels: {
