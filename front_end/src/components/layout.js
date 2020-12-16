@@ -16,7 +16,7 @@ export default function Layout({ children }) {
             <div className={layoutStyles.layout}>
                 <Helmet>
                     <meta charSet="utf-8" />
-                    <title>Congreso</title>
+                    <title>Congreso de Chile</title>
                 </Helmet>
                 {children}
             </div>
