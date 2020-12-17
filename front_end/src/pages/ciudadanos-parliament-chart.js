@@ -11,28 +11,15 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
-const GET_GENERO_COMISION_ANO = gql`
-    query get_genero($idcomision: ID!, $ano: Int!) {
-        sesionesPorComisionYAno(idcomision: $idcomision, ano: $ano) {
-            sesionLog {
-                personas {
-                    genero
-                }
-            }
+const GET_GENERO = gql`
+    query getGenero {
+        ciudadanosGenero {
+            idcomision
+			ano
+			masculino
+			femenino
         }
-    }
-`;
-
-const GET_GENERO_ANO = gql`
-    query get_genero($ano: Int!) {
-        sesionesPorAno(ano: $ano) {
-            sesionLog {
-                personas {
-                    genero
-                }
-            }
-        }
-    }
+	}
 `;
 
 const GET_COMISIONES = gql`
@@ -54,12 +41,7 @@ function Ciudadanos(props) {
     var ano = parseInt(props.ano)
     var idcomision = parseInt(props.idcomision)
 
-    var query = idcomision === 0 ? GET_GENERO_ANO : GET_GENERO_COMISION_ANO
-    var variables = idcomision === 0 ? { ano } : { idcomision, ano }
-    
-    var { loading, error, data } = useQuery(query, {
-		variables: variables
-	});
+	var { loading, error, data } = useQuery(GET_GENERO)
 
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
@@ -69,37 +51,34 @@ function Ciudadanos(props) {
 	var mujeres_porcentaje = 0;
 	var mujeres = 0;
     var total = 0;
-    var listaGenero = []
+	
+	if (ano === 2015) {
+		data = data.ciudadanosGenero.filter(element => element.ano === 2015)
+	} else if (ano === 2016) {
+		data = data.ciudadanosGenero.filter(element => element.ano === 2016)	
+	} else if (ano === 2017) {
+		data = data.ciudadanosGenero.filter(element => element.ano === 2017)
+	} else {
+		data = data.ciudadanosGenero
+	}
     
     if (idcomision === 0) {
-        data.sesionesPorAno.forEach(element => {
-            element.sesionLog.forEach(element => {
-                element.personas.forEach(element => {
-                    listaGenero.push(element.genero)
-                })
-            })
-        })
-
-        hombres = listaGenero.filter(element => element === "M").length;
-		mujeres = listaGenero.filter(element => element === "F").length;
-		total = hombres + mujeres;
-		hombres_porcentaje = parseInt(((hombres*100)/total).toFixed(0))
-		mujeres_porcentaje = parseInt(((mujeres*100)/total).toFixed(0))
+		data.forEach(element => {
+			hombres += element.masculino
+			mujeres += element.femenino
+		})
     } else {
-        data.sesionesPorComisionYAno.forEach(element => {
-			element.sesionLog.forEach(element => {
-				element.personas.forEach(element => {
-					listaGenero.push(element.genero)
-				})
-			})
-        })
-
-        hombres = listaGenero.filter(element => element === "M").length;
-		mujeres = listaGenero.filter(element => element === "F").length;
-		total = hombres + mujeres;
-		hombres_porcentaje = parseInt(((hombres*100)/total).toFixed(0))
-		mujeres_porcentaje = parseInt(((mujeres*100)/total).toFixed(0))
+		data.forEach(element => {
+			if (parseInt(element.idcomision) === idcomision) {
+				hombres += element.masculino
+				mujeres += element.femenino
+			}
+		})
 	}
+
+	total = hombres + mujeres;
+	hombres_porcentaje = parseInt(((hombres*100)/total).toFixed(0))
+	mujeres_porcentaje = parseInt(((mujeres*100)/total).toFixed(0))
 
 	const options = {
 		chart: {
@@ -252,7 +231,7 @@ export default function CiudadanosParliamentChart() {
 	const classes = useStyles();
 	const [state, setState] = useState({
 		idcomision: 0,
-		ano: 2017,
+		ano: 0,
 	});
   
 	const handleChange = (event) => {
@@ -280,6 +259,7 @@ export default function CiudadanosParliamentChart() {
 						name: 'ano'
 					}}
 					>
+					<option value={0}>Todos</option>
 					<option value={2015}>2015</option>
 					<option value={2016}>2016</option>
                     <option value={2017}>2017</option>

@@ -13,14 +13,19 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import moment from 'moment'
 
 const GET_LEGISLADORES = gql`
-	query getLegisladores($periodo: ID!) {
-        legisladores(periodo: $periodo) {
-            persona {
-                genero
+	query getLegisladores {
+        legisladores {
+			persona {
+				genero
                 fecha_nacimiento
-            }
+			}
 			cargolegislador
-        }
+			partidoPorPeriodo {
+				periodoLegislativo {
+					periodo_legislativo
+				}
+			}
+		}
 	}
 `;
 
@@ -33,15 +38,11 @@ function Legisladores(props) {
 
     var periodo = props.periodo
 
-	var { loading, error, data } = useQuery(GET_LEGISLADORES, {
-        variables: { periodo }
-    });
+	var { loading, error, data } = useQuery(GET_LEGISLADORES);
 
 	if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
     
-    data = data.legisladores
-
     // Age categories
     var categories_all = [
         '20-24', '25-29', '30-34', '35-39', '40-44',
@@ -63,6 +64,14 @@ function Legisladores(props) {
     var data_mujeres = []
     var data_hombres_porcentajes = []
     var data_mujeres_porcentajes = []
+
+    if (periodo === "8") {
+		data = data.legisladores.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo === "8")
+	} else if (periodo === "9") {
+		data = data.legisladores.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo === "9")
+	} else {
+		data = data.legisladores
+	}
 
 	if (props.legisladores === "todos") {
         hombres = data.filter(element => element.persona.genero === "M");
@@ -275,7 +284,7 @@ export default function LegisladoresPyramidBarChart() {
 	const classes = useStyles();
 	const [state, setState] = useState({
 		legisladores: "todos",
-		periodo: 9,
+		periodo: 0,
 	});
   
 	const handleChange = (event) => {
@@ -321,6 +330,7 @@ export default function LegisladoresPyramidBarChart() {
 						name: 'periodo'
 					}}
 					>
+                    <option value={0}>Todos</option>
 					<option value={8}>2014 - 2018</option>
 					<option value={9}>2018 - 2022</option>
 					</Select>

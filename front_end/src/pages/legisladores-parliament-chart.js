@@ -11,14 +11,30 @@ import Select from '@material-ui/core/Select';
 import { ThemeProvider } from '@material-ui/styles';
 import { createMuiTheme } from '@material-ui/core/styles';
 
+// const GET_LEGISLADORES = gql`
+// 	query getLegisladores($periodo: ID!) {
+//         legisladores(periodo: $periodo) {
+// 			persona {
+// 				genero
+// 			}
+// 			cargolegislador
+//         }
+// 	}
+// `;
+
 const GET_LEGISLADORES = gql`
-	query getLegisladores($periodo: ID!) {
-        legisladores(periodo: $periodo) {
+	query getTotalLegisladores {
+        legisladores {
 			persona {
 				genero
 			}
 			cargolegislador
-        }
+			partidoPorPeriodo {
+				periodoLegislativo {
+					periodo_legislativo
+				}
+			}
+		}
 	}
 `;
 
@@ -26,12 +42,17 @@ function Legisladores(props) {
 
 	var periodo = props.periodo
 
-	var { loading, error, data } = useQuery(GET_LEGISLADORES, {
-		variables: { periodo }
-	});
+	var { loading, error, data } = useQuery(GET_LEGISLADORES);
 
 	if (loading) return 'Loading...';
 	if (error) return `Error! ${error.message}`;
+
+	// var { loading2, error2, data2 } = useQuery(GET_LEGISLADORES, {
+	// 	variables: 9
+	// });
+
+	// if (loading2) return 'Loading...';
+	// if (error2) return `Error! ${error2.message}`;
 
 	var hombres = 0;
 	var hombres_porcentaje = 0;
@@ -39,17 +60,25 @@ function Legisladores(props) {
 	var mujeres_porcentaje = 0;
 	var total = 0;
 
+	if (periodo === "8") {
+		data = data.legisladores.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo === "8")
+	} else if (periodo === "9") {
+		data = data.legisladores.filter(element => element.partidoPorPeriodo.periodoLegislativo.periodo_legislativo === "9")
+	} else {
+		data = data.legisladores
+	}
+
 	if (props.legisladores === "todos") {
-		hombres = data.legisladores.filter(element => element.persona.genero === "M").length;
-		mujeres = data.legisladores.filter(element => element.persona.genero === "F").length;
+		hombres = data.filter(element => element.persona.genero === "M").length;
+		mujeres = data.filter(element => element.persona.genero === "F").length;
 		total = hombres + mujeres;
 	} else if (props.legisladores === "diputados") {
-		hombres = data.legisladores.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
-		mujeres = data.legisladores.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
+		hombres = data.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
+		mujeres = data.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Diputado" || element.cargolegislador === "Diputada")).length;
 		total = hombres + mujeres;
 	} else if (props.legisladores === "senadores") {
-		hombres = data.legisladores.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
-		mujeres = data.legisladores.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
+		hombres = data.filter(element => element.persona.genero === "M" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
+		mujeres = data.filter(element => element.persona.genero === "F" && (element.cargolegislador === "Senador" || element.cargolegislador === "Senadora")).length;
 		total = hombres + mujeres;
 	}
 
@@ -176,7 +205,7 @@ export default function LegisladoresParliamentChart() {
 	const classes = useStyles();
 	const [state, setState] = useState({
 		legisladores: "todos",
-		periodo: 9,
+		periodo: 0,
 	});
   
 	const handleChange = (event) => {
@@ -222,6 +251,7 @@ export default function LegisladoresParliamentChart() {
 						name: 'periodo'
 					}}
 					>
+					<option value={0}>Todos</option>
 					<option value={8}>2014 - 2018</option>
 					<option value={9}>2018 - 2022</option>
 					</Select>

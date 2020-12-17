@@ -59,10 +59,24 @@ function Ciudadanos(props) {
     var total_asistentes = 0
     var total_expositores = 0
 
+    if (ano === 2015) {
+        data = data.interacciones.filter(element => element.ano === 2015)
+    } else if (ano === 2016) {
+        data = data.interacciones.filter(element => element.ano === 2016)
+    } else if (ano === 2017) {
+        data = data.interacciones.filter(element => element.ano === 2017)
+    } else {
+        data = data.interacciones
+    }
+
     if (idcomision === 0) {
-        data.interacciones.forEach(element => {
-            console.log(element)
+        data.forEach(element => {
             if (element.ano === ano) {
+                data_hombres[0] -= element.asistente_masculino
+                data_hombres[1] -= element.expositor_masculino
+                data_mujeres[0] += element.asistente_femenino
+                data_mujeres[1] += element.expositor_femenino
+            } else if (ano === 0) {
                 data_hombres[0] -= element.asistente_masculino
                 data_hombres[1] -= element.expositor_masculino
                 data_mujeres[0] += element.asistente_femenino
@@ -78,8 +92,13 @@ function Ciudadanos(props) {
         data_mujeres_porcentajes[0] = ((data_mujeres[0]*100)/numero_personas).toFixed(1)
         data_mujeres_porcentajes[1] = ((data_mujeres[1]*100)/numero_personas).toFixed(1)
     } else {
-        data.interacciones.forEach(element => {
+        data.forEach(element => {
             if (element.ano === ano && parseInt(element.idcomision) === idcomision) {
+                data_hombres[0] -= element.asistente_masculino
+                data_hombres[1] -= element.expositor_masculino
+                data_mujeres[0] += element.asistente_femenino
+                data_mujeres[1] += element.expositor_femenino
+            } else if (ano === 0 && parseInt(element.idcomision) === idcomision) {
                 data_hombres[0] -= element.asistente_masculino
                 data_hombres[1] -= element.expositor_masculino
                 data_mujeres[0] += element.asistente_femenino
@@ -302,7 +321,7 @@ export default function CiudadanosPyramidBarChart() {
 	const classes = useStyles();
 	const [state, setState] = useState({
 		idcomision: 0,
-		ano: 2017,
+		ano: 0,
 	});
   
 	const handleChange = (event) => {
@@ -330,6 +349,7 @@ export default function CiudadanosPyramidBarChart() {
 						name: 'ano'
 					}}
 					>
+                    <option value={0}>Todos</option>
 					<option value={2015}>2015</option>
 					<option value={2016}>2016</option>
                     <option value={2017}>2017</option>
