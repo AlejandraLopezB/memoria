@@ -1,0 +1,8 @@
+version: 3
+services: 
+	db:
+		image: postgres: 12.5
+	api:
+		build: ./back_end/graphql-api
+	front-end:
+		build: ./front_end
