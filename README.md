@@ -6,9 +6,9 @@ Este es mi trabajo de memoria para optar al título de ingeniera civil informát
 
 El proyecto está compuesto de tres aplicaciones:
 
-1. Base de Datos en POSTRESQL.
-2. API en Apollo Server (GraphQL).
-3. Frontend en Gatsby (basado en NodeJS).
+1. Base de Datos en POSTRESQL. En back_end/db/db_dump se encuentra el respaldo más reciente.
+2. API en Apollo Server (GraphQL) en back_end/graphql-api/. 
+3. Frontend en Gatsby (basado en NodeJS) en front_end/.
 
 ## Instrucciones
 
