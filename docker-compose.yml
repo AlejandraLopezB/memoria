@@ -1,8 +1,35 @@
-version: 3
+version: '3'
+
 services: 
-	db:
-		image: postgres: 12.5
-	api:
-		build: ./back_end/graphql-api
-	front-end:
-		build: ./front_end
+    db:
+        # image: memoria_db
+        build: ./back_end/db
+        container_name: db_container
+        restart: always
+        ports: 
+            - "5555:5432"
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: bdpass
+    api:
+        # image: memoria_api
+        build: ./back_end/graphql-api
+        container_name: api_container
+        ports:
+            - "4000:4000"
+        environment:
+            POSTGRES_HOST: db
+            POSTGRES_PORT: 5432
+            POSTGRES_DB: db_memoria
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: bdpass
+        depends_on: 
+            - db
+    front-end:
+        # image: memoria_front-end
+        build: ./front_end
+        container_name: front_container
+        ports:
+            - "8000:8000"
+        depends_on: 
+            - api
