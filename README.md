@@ -12,6 +12,8 @@ El proyecto está compuesto de tres aplicaciones:
 
 ## Instrucciones
 
+`Nota: proyecto funcional en Ubuntu 20.04.1 LTS.`
+
 `Requisitos: tener instalado docker y docker-compose.`
 
 1. Clonar el repositorio de Github.
