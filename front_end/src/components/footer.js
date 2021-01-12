@@ -1,7 +1,7 @@
 import React from "react"
 import footerStyles from "./footer.module.css"
-import githubLogo from "../../public/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png"
-import linkedinLogo from "../../public/LinkedIn-Logos/linkedin-4-32.png"
+import githubLogo from "../utils/GitHub-Mark/PNG/GitHub-Mark-Light-32px.png"
+import linkedinLogo from "../utils/LinkedIn-Logos/linkedin-4-32.png"
 
 export default function Footer() {
 	return (
