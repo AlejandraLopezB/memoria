@@ -1,4 +1,4 @@
-import React from "react"
+import React, { ReactFragment } from "react"
 import Layout from "../components/layout"
 import MenuGroupContainer from "../components/menu-group-container"
 import MenuContainer from "../components/menu-container"
