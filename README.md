@@ -33,4 +33,4 @@ Ahora la aplicación está disponible en localhost:8000.
 
 Adicionalmente la interfaz gráfica de GraphQL queda diponible en localhost:4000 para hacer consultas sobre los datos.
 
-Aparte, la aplicación se encuentra disponible en visualizaciones-congreso.lc-ip81.inf.utfsm.cl y la interfaz gráfica de GraphQL en datos-congreso.lc-ip81.inf.utfsm.cl.
+Aparte, la aplicación se encuentra disponible en [visualizaciones-congreso.lc-ip81.inf.utfsm.cl](visualizaciones-congreso.lc-ip81.inf.utfsm.cl) y la interfaz gráfica de GraphQL en [datos-congreso.lc-ip81.inf.utfsm.cl](datos-congreso.lc-ip81.inf.utfsm.cl).
