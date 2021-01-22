@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 
 const client = new ApolloClient({
-	uri: 'http://localhost:4000/graphql',
+	uri: 'http://localhost:4000/graphql', // para el servidor usar: datos-congreso.lc-ip81.inf.utfsm.cl
 	cache: new InMemoryCache()
 });
 
