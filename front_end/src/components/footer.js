@@ -17,7 +17,7 @@ export default function Footer() {
                     <p>Creado por Alejandra López Balboa</p>
                 </div>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerTwo}>
-                    <p>Datos obtenidos del Congreso Nacional de Chile desde enero del 2015 hasta junio del 2018</p>
+                    <p>Datos obtenidos del Congreso Nacional de Chile para dos periodos legislativos: 2014 - 2018 y 2018 - 2022</p>
                 </div>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerThree}>
                     <p style={{ display: `flex`, justifyContent: `flex-end`, marginLeft: `6em`}}>versión alpha</p>
