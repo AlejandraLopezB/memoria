@@ -1,11 +1,9 @@
 .footer {
     display: flex;
     justify-content: space-between;
-    /* align-items: center; */
     color: #aaaaaa;
     font-size: small;
-    margin: 0.5em;
-    margin-top: auto;
+    margin: 0.9em 2em 0;
 }
 
 .footerItem {
@@ -15,11 +13,10 @@
 .footerOne,
 .footerThree {
     flex: initial;
-    /* width: 100px; */
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-left: 2em;
+    margin-right: 2em;
 }
 
 .footerTwo {

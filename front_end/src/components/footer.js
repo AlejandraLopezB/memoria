@@ -5,7 +5,7 @@ import linkedinLogo from "../utils/LinkedIn-Logos/linkedin-4-32.png"
 
 export default function Footer() {
 	return (
-        <div style={{ position: `fixed`, bottom: `0`, width: `95%`}}>
+        <div style={{ position: `relative`, bottom: `0`, width: `100%`}}>
             <div className={footerStyles.footer}>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerOne}>
                     <a href="https://github.com/AlejandraLopezB/memoria" target="_blank" rel="noopener noreferrer">
@@ -20,7 +20,7 @@ export default function Footer() {
                     <p>Datos obtenidos del Congreso Nacional de Chile de dos periodos legislativos: 2014 - 2018 y 2018 - 2022</p>
                 </div>
                 <div className={footerStyles.footerItem + ' ' + footerStyles.footerThree}>
-                    <p style={{ display: `flex`, justifyContent: `flex-end`, marginLeft: `6em`}}>versión alpha</p>
+                    <p style={{ display: `flex`, justifyContent: `flex-end`, marginLeft: `13em`}}>versión alpha</p>
                 </div>
             </div>
         </div>
