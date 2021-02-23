@@ -28,19 +28,19 @@ export default function Home() {
 						<Link to="/legisladores-parliament-chart">
 							<MenuContainer>
 								<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
-								<p>Legisladores por género</p>
+								<p>Legisladores por género y periodo</p>
 							</MenuContainer>
 						</Link>
 						<Link to="/legisladores-sidebar-chart">
 							<MenuContainer>
 								<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
-								<p>Legisladores por partido político</p>
+								<p>Legisladores por partido político y periodo</p>
 							</MenuContainer>
 						</Link>
 						<Link to="/legisladores-pyramidbar-chart">
 							<MenuContainer>
 								<img src={pyramidbarLogo} style={{ maxWidth: `50%`, margin: `0.7em 0` }} alt="PyramidBar Chart Logo" />
-								<p>Legisladores por género y edad</p>
+								<p>Legisladores por género, edad y periodo</p>
 							</MenuContainer>
 						</Link>
 					</div>
@@ -51,19 +51,19 @@ export default function Home() {
 						<Link to="ciudadanos-parliament-chart">
 							<MenuContainer>
 								<img src={parliamentLogo} style={{ maxWidth: `60%`, margin: `0.5em 0` }} alt="Parliament Chart Logo" />
-								<p>Ciudadanos por género</p>
+								<p>Ciudadanos por género, año y comisión</p>
 							</MenuContainer>
 						</Link>
 						<Link to="ciudadanos-sidebar-chart">
 							<MenuContainer>
 								<img src={sidebarLogo} style={{ maxWidth: `35%`, margin: `0.4em 0` }} alt="SideBar Chart Logo" />
-								<p>Ciudadanos por asistentes o expositores</p>
+								<p>Ciudadanos por asistentes o expositores, periodo y comisión</p>
 							</MenuContainer>
 						</Link>
 						<Link to="ciudadanos-pyramidbar-chart">
 							<MenuContainer>
 								<img src={pyramidbarLogo} style={{ maxWidth: `50%`, margin: `0.7em 0` }} alt="PyramidBar Chart Logo" />
-								<p>Ciudadanos por género, asistentes y expositores</p>
+								<p>Ciudadanos por género, asistentes o expositores, año y comisión</p>
 							</MenuContainer>
 						</Link>
 					</div>
